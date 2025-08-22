@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 超級初學者學習教練 - 完整學習指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', '微軟正黑體', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .learning-map {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stage {
+            background: #fff;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stage:hover {
+            transform: translateY(-5px);
+        }
+
+        .stage-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stage-header h3 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .stage-content {
+            padding: 25px;
+            display: none;
+        }
+
+        .stage-content.active {
+            display: block;
+        }
+
+        .topic {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .topic h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .code-comment {
+            color: #68d391;
+        }
+
+        .code-keyword {
+            color: #f6ad55;
+        }
+
+        .code-string {
+            color: #fc8181;
+        }
+
+        .code-number {
+            color: #81c784;
+        }
+
+        .output-example {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .output-example h5 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .practice-exercise {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .practice-exercise h5 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .navigation h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #667eea;
+            text-decoration: none;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #764ba2;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .interactive-demo {
+            background: #f0f8ff;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .interactive-demo h5 {
+            color: #2c5aa0;
+            margin-bottom: 15px;
+        }
+
+        .demo-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .demo-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .demo-button:hover {
+            transform: scale(1.05);
+        }
+
+        .demo-result {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .navigation {
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .code-example {
+                font-size: 12px;
+                padding: 15px;
+            }
+        }
+
+        .tip-box {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .tip-box h5 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .warning-box h5 {
+            color: #f57c00;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 頁面標題 -->
+        <div class="header">
+            <h1>🎓 C# 超級初學者學習教練</h1>
+            <p>專為完全新手設計的完整學習指南 - 從零開始，一步一步教你成為C#程式設計師！</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- 學習進度導航 -->
+        <div class="navigation">
+            <h4>📚 學習進度</h4>
+            <div class="nav-links">
+                <a href="#stage1">第一階段：語法基礎</a>
+                <a href="#stage2">第二階段：物件導向</a>
+                <a href="#stage3">第三階段：進階應用</a>
+            </div>
+        </div>
+
+        <!-- 第一階段：語法基礎與邏輯結構 -->
+        <div class="learning-map" id="stage1">
+            <h2>📘 第一階段：語法基礎與邏輯結構（打好根基）</h2>
+            <p>這個階段我們會學習C#最基本的語法，就像學中文要先學會注音符號一樣！</p>
+
+            <!-- 資料型別與變數 -->
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>🔤 資料型別與變數</h3>
+                    <span>▼</span>
+                </div>
+                <div class="stage-content">
+                    <div class="topic">
+                        <h4>什麼是變數？</h4>
+                        <p>變數就像是一個「盒子」，可以存放不同類型的資料。在C#中，我們需要先告訴電腦這個盒子要放什麼類型的東西。</p>
+                        
+                        <div class="code-example">
+<span class="code-comment">// 這是C#程式碼，我們來看看各種資料型別</span>
+<span class="code-keyword">using</span> System;
+
+<span class="code-keyword">class</span> Program
+{
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> Main(<span class="code-keyword">string</span>[] args)
+    {
+        <span class="code-comment">// 1. 整數型別 (int) - 用來存放整數，例如：年齡、數量</span>
+        <span class="code-keyword">int</span> age = 25;                    <span class="code-comment">// 宣告一個整數變數叫age，值為25</span>
+        <span class="code-keyword">int</span> studentCount = 30;          <span class="code-comment">// 學生人數</span>
+        
+        <span class="code-comment">// 2. 字串型別 (string) - 用來存放文字，例如：姓名、地址</span>
+        <span class="code-keyword">string</span> name = <span class="code-string">"小明"</span>;              <span class="code-comment">// 姓名</span>
+        <span class="code-keyword">string</span> address = <span class="code-string">"台北市信義區"</span>;    <span class="code-comment">// 地址</span>
+        
+        <span class="code-comment">// 3. 布林型別 (bool) - 用來存放真或假，例如：是否為學生、是否及格</span>
+        <span class="code-keyword">bool</span> isStudent = <span class="code-keyword">true</span>;           <span class="code-comment">// 是學生</span>
+        <span class="code-keyword">bool</span> isPassed = <span class="code-keyword">false</span>;          <span class="code-comment">// 不及格</span>
+        
+        <span class="code-comment">// 4. 小數型別 (double) - 用來存放小數，例如：身高、體重</span>
+        <span class="code-keyword">double</span> height = 175.5;           <span class="code-comment">// 身高175.5公分</span>
+        <span class="code-keyword">double</span> weight = 65.8;            <span class="code-comment">// 體重65.8公斤</span>
+        
+        <span class="code-comment">// 5. 字元型別 (char) - 用來存放單一字元，例如：性別</span>
+        <span class="code-keyword">char</span> gender = <span class="code-string">'M'</span>;                <span class="code-comment">// 性別：M代表男性</span>
+        
+        <span class="code-comment">// 6. 使用var關鍵字 - 讓電腦自動判斷型別</span>
+        <span class="code-keyword">var</span> autoNumber = 42;             <span class="code-comment">// 電腦會自動判斷這是int型別</span>
+        <span class="code-keyword">var</span> autoText = <span class="code-string">"自動判斷"</span>;        <span class="code-comment">// 電腦會自動判斷這是string型別</span>
+        
+        <span class="code-comment">// 7. 常數 (const) - 不會改變的值，例如：圓周率</span>
+        <span class="code-keyword">const</span> <span class="code-keyword">double</span> PI = 3.14159;        <span class="code-comment">// 圓周率，永遠不會改變</span>
+        
+        <span class="code-comment">// 8. 顯示所有變數的值</span>
+        Console.WriteLine(<span class="code-string">"=== 學生資料 ==="</span>);
+        Console.WriteLine(<span class="code-string">"姓名: "</span> + name);
+        Console.WriteLine(<span class="code-string">"年齡: "</span> + age + <span class="code-string">"歲"</span>);
+        Console.WriteLine(<span class="code-string">"身高: "</span> + height + <span class="code-string">"公分"</span>);
+        Console.WriteLine(<span class="code-string">"體重: "</span> + weight + <span class="code-string">"公斤"</span>);
+        Console.WriteLine(<span class="code-string">"性別: "</span> + gender);
+        Console.WriteLine(<span class="code-string">"是否為學生: "</span> + isStudent);
+        Console.WriteLine(<span class="code-string">"是否及格: "</span> + isPassed);
+        Console.WriteLine(<span class="code-string">"圓周率: "</span> + PI);
+    }
+}
+                        </div>
+
+                        <div class="output-example">
+                            <h5>📱 程式執行結果：</h5>
+                            <p>=== 學生資料 ===</p>
+                            <p>姓名: 小明</p>
+                            <p>年齡: 25歲</p>
+                            <p>身高: 175.5公分</p>
+                            <p>體重: 65.8公斤</p>
+                            <p>性別: M</p>
+                            <p>是否為學生: True</p>
+                            <p>是否及格: False</p>
+                            <p>圓周率: 3.14159</p>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5>💡 重要提醒：</h5>
+                            <ul>
+                                <li><strong>變數命名規則：</strong> 變數名稱不能以數字開頭，不能有空格，建議使用有意義的名稱</li>
+                                <li><strong>型別安全：</strong> C#是強型別語言，一旦宣告了型別就不能隨便改變</li>
+                                <li><strong>分號結尾：</strong> 每行程式碼後面都要加分號(;)</li>
+                                <li><strong>字串用雙引號：</strong> 字串要用雙引號("")包起來，字元用單引號('')</li>
+                            </ul>
+                        </div>
+
+                        <div class="practice-exercise">
+                            <h5>✏️ 練習題：建立會員資料表單</h5>
+                            <p>請你建立一個程式，包含以下變數：</p>
+                            <ul>
+                                <li>會員編號 (int)</li>
+                                <li>會員姓名 (string)</li>
+                                <li>會員年齡 (int)</li>
+                                <li>會員電話 (string)</li>
+                                <li>是否為VIP會員 (bool)</li>
+                                <li>會員積分 (double)</li>
+                            </ul>
+                            <p>然後顯示所有會員資料！</p>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h5>🎮 互動式練習：變數宣告練習</h5>
+                            <p>請輸入以下資料，我們來練習變數宣告：</p>
+                            <input type="text" class="demo-input" id="memberName" placeholder="請輸入會員姓名">
+                            <input type="number" class="demo-input" id="memberAge" placeholder="請輸入會員年齡">
+                            <input type="text" class="demo-input" id="memberPhone" placeholder="請輸入會員電話">
+                            <button class="demo-button" onclick="showMemberInfo()">顯示會員資料</button>
+                            <div class="demo-result" id="memberResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 切換學習階段顯示/隱藏
+        function toggleStage(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('span');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                arrow.textContent = '▼';
+            } else {
+                content.classList.add('active');
+                arrow.textContent = '▲';
+            }
+            
+            updateProgress();
+        }
+
+        // 更新學習進度
+        function updateProgress() {
+            const totalStages = document.querySelectorAll('.stage').length;
+            const activeStages = document.querySelectorAll('.stage-content.active').length;
+            const progress = (activeStages / totalStages) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // 會員資料顯示功能
+        function showMemberInfo() {
+            const name = document.getElementById('memberName').value || '未輸入';
+            const age = document.getElementById('memberAge').value || '未輸入';
+            const phone = document.getElementById('memberPhone').value || '未輸入';
+            
+            const result = `
+                <h6>📋 會員資料：</h6>
+                <p><strong>姓名：</strong>${name}</p>
+                <p><strong>年齡：</strong>${age}</p>
+                <p><strong>電話：</strong>${phone}</p>
+                <p><strong>會員狀態：</strong>一般會員</p>
+                <p><strong>積分：</strong>0</p>
+            `;
+            
+            document.getElementById('memberResult').innerHTML = result;
+            document.getElementById('memberResult').style.display = 'block';
+        }
+
+        // 頁面載入完成後初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+        });
+    </script>
+</body>
+</html>

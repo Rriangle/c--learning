@@ -1,0 +1,2665 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 超級初學者學習教練 - 完整學習指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', '微軟正黑體', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .learning-map {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stage {
+            background: #fff;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stage:hover {
+            transform: translateY(-5px);
+        }
+
+        .stage-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stage-header h3 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .stage-content {
+            padding: 25px;
+            display: none;
+        }
+
+        .stage-content.active {
+            display: block;
+        }
+
+        .topic {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .topic h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .code-comment {
+            color: #68d391;
+        }
+
+        .code-keyword {
+            color: #f6ad55;
+        }
+
+        .code-string {
+            color: #fc8181;
+        }
+
+        .code-number {
+            color: #81c784;
+        }
+
+        .output-example {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .output-example h5 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .practice-exercise {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .practice-exercise h5 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .navigation h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .nav-links a {
+            display: block;
+            color: #667eea;
+            text-decoration: none;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #764ba2;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .interactive-demo {
+            background: #f0f8ff;
+            border: 2px solid #4a90e2;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .interactive-demo h5 {
+            color: #2c5aa0;
+            margin-bottom: 15px;
+        }
+
+        .demo-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .demo-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .demo-button:hover {
+            transform: scale(1.05);
+        }
+
+        .demo-result {
+            background: #e8f5e8;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .navigation {
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .code-example {
+                font-size: 12px;
+                padding: 15px;
+            }
+        }
+
+        .tip-box {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .tip-box h5 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .warning-box h5 {
+            color: #f57c00;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 頁面標題 -->
+        <div class="header">
+            <h1>🎓 C# 超級初學者學習教練</h1>
+            <p>專為完全新手設計的完整學習指南 - 從零開始，一步一步教你成為C#程式設計師！</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- 學習進度導航 -->
+        <div class="navigation">
+            <h4>📚 學習進度</h4>
+            <div class="nav-links">
+                <a href="#stage1">第一階段：語法基礎</a>
+                <a href="#stage2">第二階段：物件導向</a>
+                <a href="#stage3">第三階段：進階應用</a>
+            </div>
+        </div>
+
+        <!-- 第一階段：語法基礎與邏輯結構 -->
+        <div class="learning-map" id="stage1">
+            <h2>📘 第一階段：語法基礎與邏輯結構（打好根基）</h2>
+            <p>這個階段我們會學習C#最基本的語法，就像學中文要先學會注音符號一樣！</p>
+
+            <!-- 資料型別與變數 -->
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>🔤 資料型別與變數</h3>
+                    <span>▼</span>
+                </div>
+                <div class="stage-content">
+                    <div class="topic">
+                        <h4>什麼是變數？</h4>
+                        <p>變數就像是一個「盒子」，可以存放不同類型的資料。在C#中，我們需要先告訴電腦這個盒子要放什麼類型的東西。</p>
+                        
+                        <div class="code-example">
+<span class="code-comment">// 這是C#程式碼，我們來看看各種資料型別</span>
+<span class="code-keyword">using</span> System;
+
+<span class="code-keyword">class</span> Program
+{
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> Main(<span class="code-keyword">string</span>[] args)
+    {
+        <span class="code-comment">// 1. 整數型別 (int) - 用來存放整數，例如：年齡、數量</span>
+        <span class="code-keyword">int</span> age = 25;                    <span class="code-comment">// 宣告一個整數變數叫age，值為25</span>
+        <span class="code-keyword">int</span> studentCount = 30;          <span class="code-comment">// 學生人數</span>
+        
+        <span class="code-comment">// 2. 字串型別 (string) - 用來存放文字，例如：姓名、地址</span>
+        <span class="code-keyword">string</span> name = <span class="code-string">"小明"</span>;              <span class="code-comment">// 姓名</span>
+        <span class="code-keyword">string</span> address = <span class="code-string">"台北市信義區"</span>;    <span class="code-comment">// 地址</span>
+        
+        <span class="code-comment">// 3. 布林型別 (bool) - 用來存放真或假，例如：是否為學生、是否及格</span>
+        <span class="code-keyword">bool</span> isStudent = <span class="code-keyword">true</span>;           <span class="code-comment">// 是學生</span>
+        <span class="code-keyword">bool</span> isPassed = <span class="code-keyword">false</span>;          <span class="code-comment">// 不及格</span>
+        
+        <span class="code-comment">// 4. 小數型別 (double) - 用來存放小數，例如：身高、體重</span>
+        <span class="code-keyword">double</span> height = 175.5;           <span class="code-comment">// 身高175.5公分</span>
+        <span class="code-keyword">double</span> weight = 65.8;            <span class="code-comment">// 體重65.8公斤</span>
+        
+        <span class="code-comment">// 5. 字元型別 (char) - 用來存放單一字元，例如：性別</span>
+        <span class="code-keyword">char</span> gender = <span class="code-string">'M'</span>;                <span class="code-comment">// 性別：M代表男性</span>
+        
+        <span class="code-comment">// 6. 使用var關鍵字 - 讓電腦自動判斷型別</span>
+        <span class="code-keyword">var</span> autoNumber = 42;             <span class="code-comment">// 電腦會自動判斷這是int型別</span>
+        <span class="code-keyword">var</span> autoText = <span class="code-string">"自動判斷"</span>;        <span class="code-comment">// 電腦會自動判斷這是string型別</span>
+        
+        <span class="code-comment">// 7. 常數 (const) - 不會改變的值，例如：圓周率</span>
+        <span class="code-keyword">const</span> <span class="code-keyword">double</span> PI = 3.14159;        <span class="code-comment">// 圓周率，永遠不會改變</span>
+        
+        <span class="code-comment">// 8. 顯示所有變數的值</span>
+        Console.WriteLine(<span class="code-string">"=== 學生資料 ==="</span>);
+        Console.WriteLine(<span class="code-string">"姓名: "</span> + name);
+        Console.WriteLine(<span class="code-string">"年齡: "</span> + age + <span class="code-string">"歲"</span>);
+        Console.WriteLine(<span class="code-string">"身高: "</span> + height + <span class="code-string">"公分"</span>);
+        Console.WriteLine(<span class="code-string">"體重: "</span> + weight + <span class="code-string">"公斤"</span>);
+        Console.WriteLine(<span class="code-string">"性別: "</span> + gender);
+        Console.WriteLine(<span class="code-string">"是否為學生: "</span> + isStudent);
+        Console.WriteLine(<span class="code-string">"是否及格: "</span> + isPassed);
+        Console.WriteLine(<span class="code-string">"圓周率: "</span> + PI);
+    }
+}
+                        </div>
+
+                        <div class="output-example">
+                            <h5>📱 程式執行結果：</h5>
+                            <p>=== 學生資料 ===</p>
+                            <p>姓名: 小明</p>
+                            <p>年齡: 25歲</p>
+                            <p>身高: 175.5公分</p>
+                            <p>體重: 65.8公斤</p>
+                            <p>性別: M</p>
+                            <p>是否為學生: True</p>
+                            <p>是否及格: False</p>
+                            <p>圓周率: 3.14159</p>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5>💡 重要提醒：</h5>
+                            <ul>
+                                <li><strong>變數命名規則：</strong> 變數名稱不能以數字開頭，不能有空格，建議使用有意義的名稱</li>
+                                <li><strong>型別安全：</strong> C#是強型別語言，一旦宣告了型別就不能隨便改變</li>
+                                <li><strong>分號結尾：</strong> 每行程式碼後面都要加分號(;)</li>
+                                <li><strong>字串用雙引號：</strong> 字串要用雙引號("")包起來，字元用單引號('')</li>
+                            </ul>
+                        </div>
+
+                        <div class="practice-exercise">
+                            <h5>✏️ 練習題：建立會員資料表單</h5>
+                            <p>請你建立一個程式，包含以下變數：</p>
+                            <ul>
+                                <li>會員編號 (int)</li>
+                                <li>會員姓名 (string)</li>
+                                <li>會員年齡 (int)</li>
+                                <li>會員電話 (string)</li>
+                                <li>是否為VIP會員 (bool)</li>
+                                <li>會員積分 (double)</li>
+                            </ul>
+                            <p>然後顯示所有會員資料！</p>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h5>🎮 互動式練習：變數宣告練習</h5>
+                            <p>請輸入以下資料，我們來練習變數宣告：</p>
+                            <input type="text" class="demo-input" id="memberName" placeholder="請輸入會員姓名">
+                            <input type="number" class="demo-input" id="memberAge" placeholder="請輸入會員年齡">
+                            <input type="text" class="demo-input" id="memberPhone" placeholder="請輸入會員電話">
+                            <button class="demo-button" onclick="showMemberInfo()">顯示會員資料</button>
+                            <div class="demo-result" id="memberResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 運算子與運算式 -->
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>🔢 運算子與運算式</h3>
+                    <span>▼</span>
+                </div>
+                <div class="stage-content">
+                    <div class="topic">
+                        <h4>什麼是運算子？</h4>
+                        <p>運算子就是用來進行運算的符號，就像數學中的加減乘除一樣！</p>
+                        
+                        <div class="code-example">
+<span class="code-comment">// 運算子與運算式完整教學</span>
+<span class="code-keyword">using</span> System;
+
+<span class="code-keyword">class</span> Program
+{
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> Main(<span class="code-keyword">string</span>[] args)
+    {
+        <span class="code-comment">// 1. 算術運算子 - 用來做數學計算</span>
+        <span class="code-keyword">int</span> a = 10;
+        <span class="code-keyword">int</span> b = 3;
+        
+        <span class="code-keyword">int</span> addition = a + b;        <span class="code-comment">// 加法：10 + 3 = 13</span>
+        <span class="code-keyword">int</span> subtraction = a - b;     <span class="code-comment">// 減法：10 - 3 = 7</span>
+        <span class="code-keyword">int</span> multiplication = a * b; <span class="code-comment">// 乘法：10 * 3 = 30</span>
+        <span class="code-keyword">int</span> division = a / b;       <span class="code-comment">// 除法：10 / 3 = 3 (整數除法)</span>
+        <span class="code-keyword">int</span> remainder = a % b;      <span class="code-comment">// 取餘數：10 % 3 = 1</span>
+        
+        Console.WriteLine(<span class="code-string">"=== 算術運算子 ==="</span>);
+        Console.WriteLine(<span class="code-string">"a = "</span> + a + <span class="code-string">", b = "</span> + b);
+        Console.WriteLine(<span class="code-string">"加法: "</span> + a + <span class="code-string">" + "</span> + b + <span class="code-string">" = "</span> + addition);
+        Console.WriteLine(<span class="code-string">"減法: "</span> + a + <span class="code-string">" - "</span> + b + <span class="code-string">" = "</span> + subtraction);
+        Console.WriteLine(<span class="code-string">"乘法: "</span> + a + <span class="code-string">" * "</span> + b + <span class="code-string">" = "</span> + multiplication);
+        Console.WriteLine(<span class="code-string">"除法: "</span> + a + <span class="code-string">" / "</span> + b + <span class="code-string">" = "</span> + division);
+        Console.WriteLine(<span class="code-string">"餘數: "</span> + a + <span class="code-string">" % "</span> + b + <span class="code-string">" = "</span> + remainder);
+        
+        <span class="code-comment">// 2. 比較運算子 - 用來比較兩個值</span>
+        <span class="code-keyword">bool</span> isEqual = (a == b);           <span class="code-comment">// 等於：10 == 3 是 false</span>
+        <span class="code-keyword">bool</span> isNotEqual = (a != b);       <span class="code-comment">// 不等於：10 != 3 是 true</span>
+        <span class="code-keyword">bool</span> isGreater = (a > b);         <span class="code-comment">// 大於：10 > 3 是 true</span>
+        <span class="code-keyword">bool</span> isLess = (a < b);            <span class="code-comment">// 小於：10 < 3 是 false</span>
+        <span class="code-keyword">bool</span> isGreaterOrEqual = (a >= b); <span class="code-comment">// 大於等於：10 >= 3 是 true</span>
+        <span class="code-keyword">bool</span> isLessOrEqual = (a <= b);    <span class="code-comment">// 小於等於：10 <= 3 是 false</span>
+        
+        Console.WriteLine(<span class="code-string">"\n=== 比較運算子 ==="</span>);
+        Console.WriteLine(<span class="code-string">"a == b: "</span> + isEqual);
+        Console.WriteLine(<span class="code-string">"a != b: "</span> + isNotEqual);
+        Console.WriteLine(<span class="code-string">"a > b: "</span> + isGreater);
+        Console.WriteLine(<span class="code-string">"a < b: "</span> + isLess);
+        Console.WriteLine(<span class="code-string">"a >= b: "</span> + isGreaterOrEqual);
+        Console.WriteLine(<span class="code-string">"a <= b: "</span> + isLessOrEqual);
+        
+        <span class="code-comment">// 3. 邏輯運算子 - 用來組合多個條件</span>
+        <span class="code-keyword">bool</span> condition1 = <span class="code-keyword">true</span>;
+        <span class="code-keyword">bool</span> condition2 = <span class="code-keyword">false</span>;
+        
+        <span class="code-keyword">bool</span> andResult = condition1 && condition2;  <span class="code-comment">// 邏輯AND：true && false = false</span>
+        <span class="code-keyword">bool</span> orResult = condition1 || condition2;   <span class="code-comment">// 邏輯OR：true || false = true</span>
+        <span class="code-keyword">bool</span> notResult = !condition1;               <span class="code-comment">// 邏輯NOT：!true = false</span>
+        
+        Console.WriteLine(<span class="code-string">"\n=== 邏輯運算子 ==="</span>);
+        Console.WriteLine(<span class="code-string">"condition1: "</span> + condition1);
+        Console.WriteLine(<span class="code-string">"condition2: "</span> + condition2);
+        Console.WriteLine(<span class="code-string">"condition1 && condition2: "</span> + andResult);
+        Console.WriteLine(<span class="code-string">"condition1 || condition2: "</span> + orResult);
+        Console.WriteLine(<span class="code-string">"!condition1: "</span> + notResult);
+        
+        <span class="code-comment">// 4. 三元運算子 - 簡化的if-else語句</span>
+        <span class="code-keyword">int</span> score = 85;
+        <span class="code-keyword">string</span> grade = (score >= 60) ? <span class="code-string">"及格"</span> : <span class="code-string">"不及格"</span>;
+        
+        Console.WriteLine(<span class="code-string">"\n=== 三元運算子 ==="</span>);
+        Console.WriteLine(<span class="code-string">"分數: "</span> + score);
+        Console.WriteLine(<span class="code-string">"等級: "</span> + grade);
+        
+        <span class="code-comment">// 5. 複合指派運算子 - 簡化運算</span>
+        <span class="code-keyword">int</span> number = 5;
+        number += 3;    <span class="code-comment">// 等同於 number = number + 3</span>
+        number -= 1;    <span class="code-comment">// 等同於 number = number - 1</span>
+        number *= 2;    <span class="code-comment">// 等同於 number = number * 2</span>
+        number /= 2;    <span class="code-comment">// 等同於 number = number / 2</span>
+        
+        Console.WriteLine(<span class="code-string">"\n=== 複合指派運算子 ==="</span>);
+        Console.WriteLine(<span class="code-string">"最終結果: "</span> + number);
+    }
+}
+                        </div>
+
+                        <div class="output-example">
+                            <h5>📱 程式執行結果：</h5>
+                            <p>=== 算術運算子 ===</p>
+                            <p>a = 10, b = 3</p>
+                            <p>加法: 10 + 3 = 13</p>
+                            <p>減法: 10 - 3 = 7</p>
+                            <p>乘法: 10 * 3 = 30</p>
+                            <p>除法: 10 / 3 = 3</p>
+                            <p>餘數: 10 % 3 = 1</p>
+                            <p></p>
+                            <p>=== 比較運算子 ===</p>
+                            <p>a == b: False</p>
+                            <p>a != b: True</p>
+                            <p>a > b: True</p>
+                            <p>a < b: False</p>
+                            <p>a >= b: True</p>
+                            <p>a <= b: False</p>
+                            <p></p>
+                            <p>=== 邏輯運算子 ===</p>
+                            <p>condition1: True</p>
+                            <p>condition2: False</p>
+                            <p>condition1 && condition2: False</p>
+                            <p>condition1 || condition2: True</p>
+                            <p>!condition1: False</p>
+                            <p></p>
+                            <p>=== 三元運算子 ===</p>
+                            <p>分數: 85</p>
+                            <p>等級: 及格</p>
+                            <p></p>
+                            <p>=== 複合指派運算子 ===</p>
+                            <p>最終結果: 7</p>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5>💡 運算子優先順序：</h5>
+                            <ol>
+                                <li><strong>括號 ()</strong> - 最高優先順序</li>
+                                <li><strong>乘除餘數 (* / %)</strong></li>
+                                <li><strong>加減 (+ -)</strong></li>
+                                <li><strong>比較運算子 (== != > < >= <=)</strong></li>
+                                <li><strong>邏輯運算子 (&& ||)</strong></li>
+                                <li><strong>指派運算子 (= += -= *= /=)</strong></li>
+                            </ol>
+                        </div>
+
+                        <div class="practice-exercise">
+                            <h5>✏️ 練習題：BMI計算器</h5>
+                            <p>請你建立一個程式計算BMI（身體質量指數）：</p>
+                            <p>BMI = 體重(公斤) / 身高(公尺)²</p>
+                            <p>然後判斷：</p>
+                            <ul>
+                                <li>BMI < 18.5：體重過輕</li>
+                                <li>18.5 ≤ BMI < 24：體重正常</li>
+                                <li>24 ≤ BMI < 27：體重過重</li>
+                                <li>BMI ≥ 27：肥胖</li>
+                            </ul>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h5>🎮 互動式練習：BMI計算器</h5>
+                            <p>請輸入你的身高和體重來計算BMI：</p>
+                            <input type="number" class="demo-input" id="heightInput" placeholder="請輸入身高(公分)" step="0.1">
+                            <input type="number" class="demo-input" id="weightInput" placeholder="請輸入體重(公斤)" step="0.1">
+                            <button class="demo-button" onclick="calculateBMI()">計算BMI</button>
+                            <div class="demo-result" id="bmiResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 迴圈結構 -->
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>🔄 迴圈結構</h3>
+                    <span>▼</span>
+                </div>
+                <div class="stage-content">
+                    <div class="topic">
+                        <h4>什麼是迴圈？</h4>
+                        <p>迴圈就是讓電腦重複執行某些動作，就像我們會重複練習一樣！</p>
+                        
+                        <div class="code-example">
+<span class="code-comment">// 迴圈結構完整教學 - for/while/do-while/foreach</span>
+<span class="code-keyword">using</span> System;
+
+<span class="code-keyword">class</span> Program
+{
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> Main(<span class="code-keyword">string</span>[] args)
+    {
+        Console.WriteLine(<span class="code-string">"=== 迴圈結構教學 ===\n"</span>);
+        
+        <span class="code-comment">// 1. for迴圈 - 當你知道要執行幾次時使用</span>
+        Console.WriteLine(<span class="code-string">"=== for迴圈示範 ==="</span>);
+        
+        <span class="code-comment">// 基本for迴圈 - 從1數到5</span>
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 1; i <= 5; i++)
+        {
+            Console.WriteLine(<span class="code-string">"第"</span> + i + <span class="code-string">"次：Hello World!"</span>);
+        }
+        
+        <span class="code-comment">// 計算1到10的總和</span>
+        <span class="code-keyword">int</span> sum = 0;
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 1; i <= 10; i++)
+        {
+            sum += i;  <span class="code-comment">// 累加每個數字</span>
+        }
+        Console.WriteLine(<span class="code-string">"1到10的總和："</span> + sum);
+        
+        <span class="code-comment">// 倒數迴圈 - 從10倒數到1</span>
+        Console.WriteLine(<span class="code-string">"倒數開始："</span>);
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 10; i >= 1; i--)
+        {
+            Console.Write(i + <span class="code-string">" "</span>);
+        }
+        Console.WriteLine(<span class="code-string">"發射！"</span>);
+        
+        <span class="code-comment">// 2. while迴圈 - 當你不知道要執行幾次，但知道條件時使用</span>
+        Console.WriteLine(<span class="code-string">"\n=== while迴圈示範 ==="</span>);
+        
+        <span class="code-keyword">int</span> count = 1;
+        <span class="code-keyword">while</span> (count <= 3)
+        {
+            Console.WriteLine(<span class="code-string">"while迴圈第"</span> + count + <span class="code-string">"次"</span>);
+            count++;  <span class="code-comment">// 記得要改變條件，否則會無限迴圈</span>
+        }
+        
+        <span class="code-comment">// 猜數字遊戲的迴圈</span>
+        <span class="code-keyword">int</span> targetNumber = 7;
+        <span class="code-keyword">int</span> guess = 0;
+        <span class="code-keyword">int</span> attempts = 0;
+        
+        <span class="code-keyword">while</span> (guess != targetNumber)
+        {
+            attempts++;
+            <span class="code-keyword">if</span> (attempts == 1)
+            {
+                guess = 5;  <span class="code-comment">// 第一次猜5</span>
+            }
+            <span class="code-keyword">else</span> <span class="code-keyword">if</span> (attempts == 2)
+            {
+                guess = 8;  <span class="code-keyword">// 第二次猜8</span>
+            }
+            <span class="code-keyword">else</span>
+            {
+                guess = targetNumber;  <span class="code-comment">// 第三次猜對</span>
+            }
+            
+            Console.WriteLine(<span class="code-string">"第"</span> + attempts + <span class="code-string">"次猜測："</span> + guess);
+        }
+        Console.WriteLine(<span class="code-string">"猜對了！目標數字是"</span> + targetNumber + <span class="code-string">"，總共猜了"</span> + attempts + <span class="code-string">"次"</span>);
+        
+        <span class="code-comment">// 3. do-while迴圈 - 至少執行一次，然後檢查條件</span>
+        Console.WriteLine(<span class="code-string">"\n=== do-while迴圈示範 ==="</span>);
+        
+        <span class="code-keyword">int</span> number = 1;
+        <span class="code-keyword">do</span>
+        {
+            Console.WriteLine(<span class="code-string">"do-while迴圈第"</span> + number + <span class="code-string">"次"</span>);
+            number++;
+        } <span class="code-keyword">while</span> (number <= 3);
+        
+        <span class="code-comment">// 4. foreach迴圈 - 用來遍歷集合中的每個元素</span>
+        Console.WriteLine(<span class="code-string">"\n=== foreach迴圈示範 ==="</span>);
+        
+        <span class="code-comment">// 遍歷字串陣列</span>
+        <span class="code-keyword">string</span>[] fruits = { <span class="code-string">"蘋果"</span>, <span class="code-string">"香蕉"</span>, <span class="code-string">"橘子"</span>, <span class="code-string">"葡萄"</span> };
+        
+        Console.WriteLine(<span class="code-string">"水果清單："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">string</span> fruit <span class="code-keyword">in</span> fruits)
+        {
+            Console.WriteLine(<span class="code-string">"- "</span> + fruit);
+        }
+        
+        <span class="code-comment">// 遍歷數字陣列並計算總和</span>
+        <span class="code-keyword">int</span>[] numbers = { 10, 20, 30, 40, 50 };
+        <span class="code-keyword">int</span> total = 0;
+        
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">int</span> num <span class="code-keyword">in</span> numbers)
+        {
+            total += num;
+        }
+        Console.WriteLine(<span class="code-string">"數字陣列總和："</span> + total);
+        
+        <span class="code-comment">// 5. 巢狀迴圈 - 迴圈裡面還有迴圈</span>
+        Console.WriteLine(<span class="code-string">"\n=== 巢狀迴圈示範 ==="</span>);
+        
+        <span class="code-comment">// 九九乘法表</span>
+        Console.WriteLine(<span class="code-string">"九九乘法表："</span>);
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 1; i <= 9; i++)
+        {
+            <span class="code-keyword">for</span> (<span class="code-keyword">int</span> j = 1; j <= i; j++)
+            {
+                Console.Write(j + <span class="code-string">"×"</span> + i + <span class="code-string">"="</span> + (i * j) + <span class="code-string">"\t"</span>);
+            }
+            Console.WriteLine();  <span class="code-comment">// 換行</span>
+        }
+        
+        <span class="code-comment">// 6. 迴圈控制語句 - break和continue</span>
+        Console.WriteLine(<span class="code-string">"\n=== 迴圈控制語句示範 ==="</span>);
+        
+        <span class="code-comment">// break - 跳出迴圈</span>
+        Console.WriteLine(<span class="code-string">"使用break跳出迴圈："</span>);
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 1; i <= 10; i++)
+        {
+            <span class="code-keyword">if</span> (i == 6)
+            {
+                Console.WriteLine(<span class="code-string">"遇到6，跳出迴圈！"</span>);
+                <span class="code-keyword">break</span>;  <span class="code-comment">// 跳出迴圈</span>
+            }
+            Console.Write(i + <span class="code-string">" "</span>);
+        }
+        Console.WriteLine();
+        
+        <span class="code-comment">// continue - 跳過本次迴圈，繼續下一次</span>
+        Console.WriteLine(<span class="code-string">"使用continue跳過偶數："</span>);
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 1; i <= 10; i++)
+        {
+            <span class="code-keyword">if</span> (i % 2 == 0)
+            {
+                <span class="code-keyword">continue</span>;  <span class="code-comment">// 跳過偶數</span>
+            }
+            Console.Write(i + <span class="code-string">" "</span>);
+        }
+        Console.WriteLine(<span class="code-string">"（只顯示奇數）"</span>);
+        
+        <span class="code-comment">// 7. 無限迴圈和如何避免</span>
+        Console.WriteLine(<span class="code-string">"\n=== 無限迴圈示範 ==="</span>);
+        
+        <span class="code-keyword">int</span> counter = 0;
+        <span class="code-keyword">while</span> (<span class="code-keyword">true</span>)  <span class="code-comment">// 無限迴圈</span>
+        {
+            counter++;
+            Console.Write(counter + <span class="code-string">" "</span>);
+            
+            <span class="code-keyword">if</span> (counter >= 5)
+            {
+                Console.WriteLine(<span class="code-string">"\n達到5次，跳出無限迴圈！"</span>);
+                <span class="code-keyword">break</span>;  <span class="code-comment">// 使用break跳出</span>
+            }
+        }
+    }
+}
+                        </div>
+
+                        <div class="output-example">
+                            <h5>📱 程式執行結果：</h5>
+                            <p>=== 迴圈結構教學 ===</p>
+                            <p></p>
+                            <p>=== for迴圈示範 ===</p>
+                            <p>第1次：Hello World!</p>
+                            <p>第2次：Hello World!</p>
+                            <p>第3次：Hello World!</p>
+                            <p>第4次：Hello World!</p>
+                            <p>第5次：Hello World!</p>
+                            <p>1到10的總和：55</p>
+                            <p>倒數開始：</p>
+                            <p>10 9 8 7 6 5 4 3 2 1 發射！</p>
+                            <p></p>
+                            <p>=== while迴圈示範 ===</p>
+                            <p>while迴圈第1次</p>
+                            <p>while迴圈第2次</p>
+                            <p>while迴圈第3次</p>
+                            <p>第1次猜測：5</p>
+                            <p>第2次猜測：8</p>
+                            <p>第3次猜測：7</p>
+                            <p>猜對了！目標數字是7，總共猜了3次</p>
+                            <p></p>
+                            <p>=== do-while迴圈示範 ===</p>
+                            <p>do-while迴圈第1次</p>
+                            <p>do-while迴圈第2次</p>
+                            <p>do-while迴圈第3次</p>
+                            <p></p>
+                            <p>=== foreach迴圈示範 ===</p>
+                            <p>水果清單：</p>
+                            <p>- 蘋果</p>
+                            <p>- 香蕉</p>
+                            <p>- 橘子</p>
+                            <p>- 葡萄</p>
+                            <p>數字陣列總和：150</p>
+                            <p></p>
+                            <p>=== 巢狀迴圈示範 ===</p>
+                            <p>九九乘法表：</p>
+                            <p>1×1=1</p>
+                            <p>1×2=2    2×2=4</p>
+                            <p>1×3=3    2×3=6    3×3=9</p>
+                            <p>...（省略部分內容）</p>
+                            <p></p>
+                            <p>=== 迴圈控制語句示範 ===</p>
+                            <p>使用break跳出迴圈：</p>
+                            <p>1 2 3 4 5 遇到6，跳出迴圈！</p>
+                            <p>使用continue跳過偶數：</p>
+                            <p>1 3 5 7 9 （只顯示奇數）</p>
+                            <p></p>
+                            <p>=== 無限迴圈示範 ===</p>
+                            <p>1 2 3 4 5</p>
+                            <p>達到5次，跳出無限迴圈！</p>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5>💡 迴圈的重要概念：</h5>
+                            <ul>
+                                <li><strong>for迴圈：</strong> 當你知道要執行幾次時使用，語法：for(初始值; 條件; 增量)</li>
+                                <li><strong>while迴圈：</strong> 當你不知道要執行幾次，但知道條件時使用</li>
+                                <li><strong>do-while迴圈：</strong> 至少執行一次，然後檢查條件</li>
+                                <li><strong>foreach迴圈：</strong> 用來遍歷集合中的每個元素</li>
+                                <li><strong>break：</strong> 跳出迴圈</li>
+                                <li><strong>continue：</strong> 跳過本次迴圈，繼續下一次</li>
+                                <li><strong>注意：</strong> 要避免無限迴圈，確保條件會改變</li>
+                            </ul>
+                        </div>
+
+                        <div class="practice-exercise">
+                            <h5>✏️ 練習題：數字遊戲</h5>
+                            <p>請你建立一個程式：</p>
+                            <ul>
+                                <li>使用for迴圈計算1到100的總和</li>
+                                <li>使用while迴圈找出1到100中第一個能被7整除的數</li>
+                                <li>使用foreach迴圈遍歷一個字串陣列並顯示每個字串的長度</li>
+                                <li>使用巢狀迴圈印出一個5×5的星號方陣</li>
+                            </ul>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h5>🎮 互動式練習：迴圈練習器</h5>
+                            <p>請輸入一個數字來練習迴圈：</p>
+                            <input type="number" class="demo-input" id="loopInput" placeholder="請輸入數字(1-20)" min="1" max="20">
+                            <button class="demo-button" onclick="practiceLoop()">開始練習</button>
+                            <div class="demo-result" id="loopResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 方法與函式 -->
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>⚙️ 方法與函式</h3>
+                    <span>▼</span>
+                </div>
+                <div class="stage-content">
+                    <div class="topic">
+                        <h4>什麼是方法？</h4>
+                        <p>方法就是一段可以重複使用的程式碼，就像我們會重複使用某些工具一樣！</p>
+                        
+                        <div class="code-example">
+<span class="code-comment">// 方法與函式完整教學</span>
+<span class="code-keyword">using</span> System;
+
+<span class="code-keyword">class</span> Program
+{
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> Main(<span class="code-keyword">string</span>[] args)
+    {
+        Console.WriteLine(<span class="code-string">"=== 方法與函式教學 ===\n"</span>);
+        
+        <span class="code-comment">// 1. 呼叫無參數無回傳值的方法</span>
+        SayHello();
+        SayHello();
+        SayHello();
+        
+        <span class="code-comment">// 2. 呼叫有參數的方法</span>
+        GreetPerson(<span class="code-string">"小明"</span>);
+        GreetPerson(<span class="code-string">"小華"</span>);
+        GreetPerson(<span class="code-string">"小美"</span>);
+        
+        <span class="code-comment">// 3. 呼叫有回傳值的方法</span>
+        <span class="code-keyword">int</span> result1 = AddNumbers(5, 3);
+        <span class="code-keyword">int</span> result2 = AddNumbers(10, 20);
+        
+        Console.WriteLine(<span class="code-string">"5 + 3 = "</span> + result1);
+        Console.WriteLine(<span class="code-string">"10 + 20 = "</span> + result2);
+        
+        <span class="code-comment">// 4. 呼叫多個參數的方法</span>
+        <span class="code-keyword">double</span> area = CalculateRectangleArea(5.5, 3.2);
+        Console.WriteLine(<span class="code-string">"長方形面積："</span> + area);
+        
+        <span class="code-comment">// 5. 呼叫有預設參數的方法</span>
+        PrintInfo(<span class="code-string">"小強"</span>);  <span class="code-comment">// 使用預設年齡</span>
+        PrintInfo(<span class="code-string">"小芳"</span>, 22);  <span class="code-comment">// 指定年齡</span>
+        
+        <span class="code-comment">// 6. 呼叫有out參數的方法</span>
+        <span class="code-keyword">int</span> dividend = 17;
+        <span class="code-keyword">int</span> divisor = 5;
+        <span class="code-keyword">int</span> quotient, remainder;
+        
+        DivideNumbers(dividend, divisor, <span class="code-keyword">out</span> quotient, <span class="code-keyword">out</span> remainder);
+        Console.WriteLine(<span class="code-string">"17 ÷ 5 = "</span> + quotient + <span class="code-string">" 餘 "</span> + remainder);
+        
+        <span class="code-comment">// 7. 呼叫有ref參數的方法</span>
+        <span class="code-keyword">int</span> number = 10;
+        Console.WriteLine(<span class="code-string">"修改前："</span> + number);
+        DoubleNumber(<span class="code-keyword">ref</span> number);
+        Console.WriteLine(<span class="code-string">"修改後："</span> + number);
+        
+        <span class="code-comment">// 8. 呼叫有params參數的方法</span>
+        <span class="code-keyword">int</span> sum1 = SumNumbers(1, 2, 3);
+        <span class="code-keyword">int</span> sum2 = SumNumbers(10, 20, 30, 40, 50);
+        
+        Console.WriteLine(<span class="code-string">"1+2+3 = "</span> + sum1);
+        Console.WriteLine(<span class="code-string">"10+20+30+40+50 = "</span> + sum2);
+        
+        <span class="code-comment">// 9. 呼叫遞迴方法</span>
+        <span class="code-keyword">int</span> factorial = CalculateFactorial(5);
+        Console.WriteLine(<span class="code-string">"5! = "</span> + factorial);
+        
+        <span class="code-comment">// 10. 呼叫方法多載</span>
+        Console.WriteLine(<span class="code-string">"整數加法："</span> + Add(5, 3));
+        Console.WriteLine(<span class="code-string">"小數加法："</span> + Add(5.5, 3.2));
+        Console.WriteLine(<span class="code-string">"字串連接："</span> + Add(<span class="code-string">"Hello"</span>, <span class="code-string">" World"</span>));
+    }
+    
+    <span class="code-comment">// 1. 無參數無回傳值的方法</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> SayHello()
+    {
+        Console.WriteLine(<span class="code-string">"你好！歡迎學習C#！"</span>);
+    }
+    
+    <span class="code-comment">// 2. 有參數無回傳值的方法</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> GreetPerson(<span class="code-keyword">string</span> name)
+    {
+        Console.WriteLine(<span class="code-string">"你好，"</span> + name + <span class="code-string">"！很高興見到你！"</span>);
+    }
+    
+    <span class="code-comment">// 3. 有參數有回傳值的方法</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">int</span> AddNumbers(<span class="code-keyword">int</span> a, <span class="code-keyword">int</span> b)
+    {
+        <span class="code-keyword">int</span> result = a + b;
+        <span class="code-keyword">return</span> result;  <span class="code-comment">// 回傳結果</span>
+    }
+    
+    <span class="code-comment">// 4. 多個參數的方法</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">double</span> CalculateRectangleArea(<span class="code-keyword">double</span> length, <span class="code-keyword">double</span> width)
+    {
+        <span class="code-keyword">return</span> length * width;
+    }
+    
+    <span class="code-comment">// 5. 有預設參數的方法</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> PrintInfo(<span class="code-keyword">string</span> name, <span class="code-keyword">int</span> age = 18)
+    {
+        Console.WriteLine(<span class="code-string">"姓名："</span> + name + <span class="code-string">"，年齡："</span> + age);
+    }
+    
+    <span class="code-comment">// 6. 有out參數的方法 - 可以回傳多個值</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> DivideNumbers(<span class="code-keyword">int</span> dividend, <span class="code-keyword">int</span> divisor, <span class="code-keyword">out</span> <span class="code-keyword">int</span> quotient, <span class="code-keyword">out</span> <span class="code-keyword">int</span> remainder)
+    {
+        quotient = dividend / divisor;    <span class="code-comment">// 商數</span>
+        remainder = dividend % divisor;   <span class="code-comment">// 餘數</span>
+    }
+    
+    <span class="code-comment">// 7. 有ref參數的方法 - 可以修改傳入的變數</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> DoubleNumber(<span class="code-keyword">ref</span> <span class="code-keyword">int</span> number)
+    {
+        number = number * 2;  <span class="code-comment">// 直接修改傳入的變數</span>
+    }
+    
+    <span class="code-comment">// 8. 有params參數的方法 - 可以接受不定數量的參數</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">int</span> SumNumbers(<span class="code-keyword">params</span> <span class="code-keyword">int</span>[] numbers)
+    {
+        <span class="code-keyword">int</span> sum = 0;
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">int</span> num <span class="code-keyword">in</span> numbers)
+        {
+            sum += num;
+        }
+        <span class="code-keyword">return</span> sum;
+    }
+    
+    <span class="code-comment">// 9. 遞迴方法 - 方法呼叫自己</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">int</span> CalculateFactorial(<span class="code-keyword">int</span> n)
+    {
+        <span class="code-keyword">if</span> (n <= 1)
+        {
+            <span class="code-keyword">return</span> 1;  <span class="code-comment">// 基本情況</span>
+        }
+        <span class="code-keyword">else</span>
+        {
+            <span class="code-keyword">return</span> n * CalculateFactorial(n - 1);  <span class="code-comment">// 遞迴呼叫</span>
+        }
+    }
+    
+    <span class="code-comment">// 10. 方法多載 - 同名但參數不同的方法</span>
+    <span class="code-keyword">static</span> <span class="code-keyword">int</span> Add(<span class="code-keyword">int</span> a, <span class="code-keyword">int</span> b)
+    {
+        <span class="code-keyword">return</span> a + b;
+    }
+    
+    <span class="code-keyword">static</span> <span class="code-keyword">double</span> Add(<span class="code-keyword">double</span> a, <span class="code-keyword">double</span> b)
+    {
+        <span class="code-keyword">return</span> a + b;
+    }
+    
+    <span class="code-keyword">static</span> <span class="code-keyword">string</span> Add(<span class="code-keyword">string</span> a, <span class="code-keyword">string</span> b)
+    {
+        <span class="code-keyword">return</span> a + b;
+    }
+}
+                        </div>
+
+                        <div class="output-example">
+                            <h5>📱 程式執行結果：</h5>
+                            <p>=== 方法與函式教學 ===</p>
+                            <p></p>
+                            <p>你好！歡迎學習C#！</p>
+                            <p>你好！歡迎學習C#！</p>
+                            <p>你好！歡迎學習C#！</p>
+                            <p>你好，小明！很高興見到你！</p>
+                            <p>你好，小華！很高興見到你！</p>
+                            <p>你好，小美！很高興見到你！</p>
+                            <p>5 + 3 = 8</p>
+                            <p>10 + 20 = 30</p>
+                            <p>長方形面積：17.6</p>
+                            <p>姓名：小強，年齡：18</p>
+                            <p>姓名：小芳，年齡：22</p>
+                            <p>17 ÷ 5 = 3 餘 2</p>
+                            <p>修改前：10</p>
+                            <p>修改後：20</p>
+                            <p>1+2+3 = 6</p>
+                            <p>10+20+30+40+50 = 150</p>
+                            <p>5! = 120</p>
+                            <p>整數加法：8</p>
+                            <p>小數加法：8.7</p>
+                            <p>字串連接：Hello World</p>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5>💡 方法的重要概念：</h5>
+                            <ul>
+                                <li><strong>方法定義：</strong> 使用static關鍵字定義靜態方法，可以在Main方法中直接呼叫</li>
+                                <li><strong>參數傳遞：</strong> 可以傳入不同類型的參數，方法會根據參數執行相應的邏輯</li>
+                                <li><strong>回傳值：</strong> 使用return關鍵字回傳結果，void表示無回傳值</li>
+                                <li><strong>out參數：</strong> 用來回傳多個值，呼叫時必須使用out關鍵字</li>
+                                <li><strong>ref參數：</strong> 可以修改傳入的變數值</li>
+                                <li><strong>params參數：</strong> 可以接受不定數量的參數</li>
+                                <li><strong>方法多載：</strong> 同名但參數不同的方法，編譯器會自動選擇合適的版本</li>
+                            </ul>
+                        </div>
+
+                        <div class="practice-exercise">
+                            <h5>✏️ 練習題：計算機功能</h5>
+                            <p>請你建立一個計算機程式，包含以下方法：</p>
+                            <ul>
+                                <li>Add(a, b) - 加法</li>
+                                <li>Subtract(a, b) - 減法</li>
+                                <li>Multiply(a, b) - 乘法</li>
+                                <li>Divide(a, b) - 除法（注意除零錯誤）</li>
+                                <li>Power(base, exponent) - 計算次方</li>
+                                <li>CalculateAverage(params numbers) - 計算平均值</li>
+                            </ul>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h5>🎮 互動式練習：簡單計算器</h5>
+                            <p>請輸入兩個數字來進行計算：</p>
+                            <input type="number" class="demo-input" id="num1" placeholder="請輸入第一個數字">
+                            <input type="number" class="demo-input" id="num2" placeholder="請輸入第二個數字">
+                            <button class="demo-button" onclick="calculate()">計算</button>
+                            <div class="demo-result" id="calcResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 陣列與集合 -->
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>📦 陣列與集合</h3>
+                    <span>▼</span>
+                </div>
+                <div class="stage-content">
+                    <div class="topic">
+                        <h4>什麼是陣列和集合？</h4>
+                        <p>陣列和集合就是用來存放多個相同類型資料的容器，就像一個大盒子可以放很多東西一樣！</p>
+                        
+                        <div class="code-example">
+<span class="code-comment">// 陣列與集合完整教學</span>
+<span class="code-keyword">using</span> System;
+<span class="code-keyword">using</span> System.Collections.Generic;  <span class="code-comment">// 使用泛型集合</span>
+
+<span class="code-keyword">class</span> Program
+{
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> Main(<span class="code-keyword">string</span>[] args)
+    {
+        Console.WriteLine(<span class="code-string">"=== 陣列與集合教學 ===\n"</span>);
+        
+        <span class="code-comment">// 1. 一維陣列 - 最基本的陣列</span>
+        Console.WriteLine(<span class="code-string">"=== 一維陣列示範 ==="</span>);
+        
+        <span class="code-comment">// 宣告並初始化陣列</span>
+        <span class="code-keyword">int</span>[] numbers = <span class="code-keyword">new</span> <span class="code-keyword">int</span>[5];  <span class="code-comment">// 建立一個可以放5個整數的陣列</span>
+        
+        <span class="code-comment">// 設定陣列元素的值</span>
+        numbers[0] = 10;  <span class="code-comment">// 第一個元素（索引從0開始）</span>
+        numbers[1] = 20;  <span class="code-comment">// 第二個元素</span>
+        numbers[2] = 30;  <span class="code-comment">// 第三個元素</span>
+        numbers[3] = 40;  <span class="code-comment">// 第四個元素</span>
+        numbers[4] = 50;  <span class="code-comment">// 第五個元素</span>
+        
+        <span class="code-comment">// 顯示陣列內容</span>
+        Console.WriteLine(<span class="code-string">"陣列內容："</span>);
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 0; i < numbers.Length; i++)
+        {
+            Console.WriteLine(<span class="code-string">"numbers["</span> + i + <span class="code-string">"] = "</span> + numbers[i]);
+        }
+        
+        <span class="code-comment">// 陣列初始化語法</span>
+        <span class="code-keyword">string</span>[] names = { <span class="code-string">"小明"</span>, <span class="code-string">"小華"</span>, <span class="code-string">"小美"</span>, <span class="code-string">"小強"</span> };
+        Console.WriteLine(<span class="code-string">"姓名陣列："</span> + <span class="code-keyword">string</span>.Join(<span class="code-string">", "</span>, names));
+        
+        <span class="code-comment">// 2. 二維陣列 - 表格形式的陣列</span>
+        Console.WriteLine(<span class="code-string">"\n=== 二維陣列示範 ==="</span>);
+        
+        <span class="code-keyword">int</span>[,] matrix = <span class="code-keyword">new</span> <span class="code-keyword">int</span>[3, 3];  <span class="code-comment">// 3x3的二維陣列</span>
+        
+        <span class="code-comment">// 設定二維陣列的值</span>
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 0; i < 3; i++)
+        {
+            <span class="code-keyword">for</span> (<span class="code-keyword">int</span> j = 0; j < 3; j++)
+            {
+                matrix[i, j] = i + j;  <span class="code-comment">// 每個元素等於行索引+列索引</span>
+            }
+        }
+        
+        <span class="code-comment">// 顯示二維陣列</span>
+        Console.WriteLine(<span class="code-string">"3x3矩陣："</span>);
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 0; i < 3; i++)
+        {
+            <span class="code-keyword">for</span> (<span class="code-keyword">int</span> j = 0; j < 3; j++)
+            {
+                Console.Write(matrix[i, j] + <span class="code-string">" "</span>);
+            }
+            Console.WriteLine();  <span class="code-comment">// 換行</span>
+        }
+        
+        <span class="code-comment">// 3. List&lt;T&gt; - 動態大小的陣列</span>
+        Console.WriteLine(<span class="code-string">"\n=== List&lt;T&gt;示範 ==="</span>);
+        
+        List&lt;<span class="code-keyword">string</span>&gt; fruitList = <span class="code-keyword">new</span> List&lt;<span class="code-keyword">string</span>&gt;();
+        
+        <span class="code-comment">// 添加元素</span>
+        fruitList.Add(<span class="code-string">"蘋果"</span>);
+        fruitList.Add(<span class="code-string">"香蕉"</span>);
+        fruitList.Add(<span class="code-string">"橘子"</span>);
+        
+        Console.WriteLine(<span class="code-string">"水果清單："</span> + <span class="code-keyword">string</span>.Join(<span class="code-string">", "</span>, fruitList));
+        Console.WriteLine(<span class="code-string">"清單中有 "</span> + fruitList.Count + <span class="code-string">" 個水果"</span>);
+        
+        <span class="code-comment">// 插入元素</span>
+        fruitList.Insert(1, <span class="code-string">"葡萄"</span>);
+        Console.WriteLine(<span class="code-string">"插入葡萄後："</span> + <span class="code-string">string</span>.Join(<span class="code-string">", "</span>, fruitList));
+        
+        <span class="code-comment">// 移除元素</span>
+        fruitList.Remove(<span class="code-string">"香蕉"</span>);
+        Console.WriteLine(<span class="code-string">"移除香蕉後："</span> + <span class="code-string">string</span>.Join(<span class="code-string">", "</span>, fruitList));
+        
+        <span class="code-comment">// 4. Dictionary&lt;TKey, TValue&gt; - 鍵值對集合</span>
+        Console.WriteLine(<span class="code-string">"\n=== Dictionary示範 ==="</span>);
+        
+        Dictionary&lt;<span class="code-keyword">string</span>, <span class="code-keyword">int</span>&gt; studentScores = <span class="code-keyword">new</span> Dictionary&lt;<span class="code-keyword">string</span>, <span class="code-keyword">int</span>&gt;();
+        
+        <span class="code-comment">// 添加學生分數</span>
+        studentScores.Add(<span class="code-string">"小明"</span>, 85);
+        studentScores.Add(<span class="code-string">"小華"</span>, 92);
+        studentScores.Add(<span class="code-string">"小美"</span>, 78);
+        studentScores.Add(<span class="code-string">"小強"</span>, 95);
+        
+        <span class="code-comment">// 顯示所有學生分數</span>
+        Console.WriteLine(<span class="code-string">"學生分數："</span>);
+        <span class="code-keyword">foreach</span> (KeyValuePair&lt;<span class="code-keyword">string</span>, <span class="code-keyword">int</span>&gt; kvp <span class="code-keyword">in</span> studentScores)
+        {
+            Console.WriteLine(kvp.Key + <span class="code-string">": "</span> + kvp.Value + <span class="code-string">"分"</span>);
+        }
+        
+        <span class="code-comment">// 檢查鍵是否存在</span>
+        <span class="code-keyword">if</span> (studentScores.ContainsKey(<span class="code-string">"小明"</span>))
+        {
+            Console.WriteLine(<span class="code-string">"小明的分數："</span> + studentScores[<span class="code-string">"小明"</span>]);
+        }
+        
+        <span class="code-comment">// 5. 陣列和集合的常用方法</span>
+        Console.WriteLine(<span class="code-string">"\n=== 常用方法示範 ==="</span>);
+        
+        <span class="code-keyword">int</span>[] scores = { 85, 92, 78, 95, 88, 76, 90 };
+        
+        <span class="code-comment">// 排序</span>
+        Array.Sort(scores);
+        Console.WriteLine(<span class="code-string">"排序後的分數："</span> + <span class="code-string">string</span>.Join(<span class="code-string">", "</span>, scores));
+        
+        <span class="code-comment">// 反轉</span>
+        Array.Reverse(scores);
+        Console.WriteLine(<span class="code-string">"反轉後的分數："</span> + <span class="code-string">string</span>.Join(<span class="code-string">", "</span>, scores));
+        
+        <span class="code-comment">// 尋找最大值和最小值</span>
+        <span class="code-keyword">int</span> maxScore = scores.Max();
+        <span class="code-keyword">int</span> minScore = scores.Min();
+        Console.WriteLine(<span class="code-string">"最高分："</span> + maxScore + <span class="code-string">"，最低分："</span> + minScore);
+        
+        <span class="code-comment">// 6. 陣列和集合的轉換</span>
+        Console.WriteLine(<span class="code-string">"\n=== 轉換示範 ==="</span>);
+        
+        <span class="code-comment">// 陣列轉List</span>
+        <span class="code-keyword">int</span>[] numberArray = { 1, 2, 3, 4, 5 };
+        List&lt;<span class="code-keyword">int</span>&gt; numberList = <span class="code-keyword">new</span> List&lt;<span class="code-keyword">int</span>&gt;(numberArray);
+        
+        <span class="code-comment">// List轉陣列</span>
+        <span class="code-keyword">int</span>[] newArray = numberList.ToArray();
+        
+        Console.WriteLine(<span class="code-string">"原始陣列："</span> + <span class="code-string">string</span>.Join(<span class="code-string">", "</span>, numberArray));
+        Console.WriteLine(<span class="code-string">"轉換為List："</span> + <span class="code-string">string</span>.Join(<span class="code-string">", "</span>, numberList));
+        Console.WriteLine(<span class="code-string">"轉換回陣列："</span> + <span class="code-string">string</span>.Join(<span class="code-string">", "</span>, newArray));
+        
+        <span class="code-comment">// 7. 多維List</span>
+        Console.WriteLine(<span class="code-string">"\n=== 多維List示範 ==="</span>);
+        
+        List&lt;List&lt;<span class="code-keyword">int</span>&gt;&gt; matrixList = <span class="code-keyword">new</span> List&lt;List&lt;<span class="code-keyword">int</span>&gt;&gt;();
+        
+        <span class="code-comment">// 建立3x3矩陣</span>
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 0; i < 3; i++)
+        {
+            List&lt;<span class="code-keyword">int</span>&gt; row = <span class="code-keyword">new</span> List&lt;<span class="code-keyword">int</span>&gt;();
+            <span class="code-keyword">for</span> (<span class="code-keyword">int</span> j = 0; j < 3; j++)
+            {
+                row.Add(i * 3 + j + 1);  <span class="code-comment">// 1,2,3,4,5,6,7,8,9</span>
+            }
+            matrixList.Add(row);
+        }
+        
+        <span class="code-comment">// 顯示多維List</span>
+        Console.WriteLine(<span class="code-string">"多維List矩陣："</span>);
+        <span class="code-keyword">foreach</span> (List&lt;<span class="code-keyword">int</span>&gt; row <span class="code-keyword">in</span> matrixList)
+        {
+            Console.WriteLine(<span class="code-string">string</span>.Join(<span class="code-string">" "</span>, row));
+        }
+    }
+}
+                        </div>
+
+                        <div class="output-example">
+                            <h5>📱 程式執行結果：</h5>
+                            <p>=== 陣列與集合教學 ===</p>
+                            <p></p>
+                            <p>=== 一維陣列示範 ===</p>
+                            <p>陣列內容：</p>
+                            <p>numbers[0] = 10</p>
+                            <p>numbers[1] = 20</p>
+                            <p>numbers[2] = 30</p>
+                            <p>numbers[3] = 40</p>
+                            <p>numbers[4] = 50</p>
+                            <p>姓名陣列：小明, 小華, 小美, 小強</p>
+                            <p></p>
+                            <p>=== 二維陣列示範 ===</p>
+                            <p>3x3矩陣：</p>
+                            <p>0 1 2</p>
+                            <p>1 2 3</p>
+                            <p>2 3 4</p>
+                            <p></p>
+                            <p>=== List&lt;T&gt;示範 ===</p>
+                            <p>水果清單：蘋果, 香蕉, 橘子</p>
+                            <p>清單中有 3 個水果</p>
+                            <p>插入葡萄後：蘋果, 葡萄, 香蕉, 橘子</p>
+                            <p>移除香蕉後：蘋果, 葡萄, 橘子</p>
+                            <p></p>
+                            <p>=== Dictionary示範 ===</p>
+                            <p>學生分數：</p>
+                            <p>小明: 85分</p>
+                            <p>小華: 92分</p>
+                            <p>小美: 78分</p>
+                            <p>小強: 95分</p>
+                            <p>小明的分數：85</p>
+                            <p></p>
+                            <p>=== 常用方法示範 ===</p>
+                            <p>排序後的分數：76, 78, 85, 88, 90, 92, 95</p>
+                            <p>反轉後的分數：95, 92, 90, 88, 85, 78, 76</p>
+                            <p>最高分：95，最低分：76</p>
+                            <p></p>
+                            <p>=== 轉換示範 ===</p>
+                            <p>原始陣列：1, 2, 3, 4, 5</p>
+                            <p>轉換為List：1, 2, 3, 4, 5</p>
+                            <p>轉換回陣列：1, 2, 3, 4, 5</p>
+                            <p></p>
+                            <p>=== 多維List示範 ===</p>
+                            <p>多維List矩陣：</p>
+                            <p>1 2 3</p>
+                            <p>4 5 6</p>
+                            <p>7 8 9</p>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5>💡 陣列與集合的重要概念：</h5>
+                            <ul>
+                                <li><strong>陣列：</strong> 固定大小的資料容器，索引從0開始</li>
+                                <li><strong>List&lt;T&gt;：</strong> 動態大小的陣列，可以隨時添加或移除元素</li>
+                                <li><strong>Dictionary&lt;TKey, TValue&gt;：</strong> 鍵值對集合，可以快速查找資料</li>
+                                <li><strong>索引：</strong> 陣列和List的索引從0開始，最後一個元素的索引是Length-1</li>
+                                <li><strong>常用方法：</strong> Add, Remove, Insert, Contains, Count等</li>
+                                <li><strong>排序：</strong> Array.Sort()用於陣列，List.Sort()用於List</li>
+                                <li><strong>轉換：</strong> 陣列和List之間可以互相轉換</li>
+                            </ul>
+                        </div>
+
+                        <div class="practice-exercise">
+                            <h5>✏️ 練習題：商品管理系統</h5>
+                            <p>請你建立一個商品管理系統：</p>
+                            <ul>
+                                <li>使用List&lt;Product&gt;來儲存商品資訊</li>
+                                <li>每個商品包含：編號、名稱、價格、庫存</li>
+                                <li>實作以下功能：</li>
+                                <li>添加商品、移除商品、查找商品、顯示所有商品</li>
+                                <li>計算總庫存價值、找出最貴和最便宜的商品</li>
+                            </ul>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h5>🎮 互動式練習：陣列操作器</h5>
+                            <p>請輸入一些數字來練習陣列操作：</p>
+                            <input type="text" class="demo-input" id="arrayInput" placeholder="請輸入數字，用逗號分隔（如：1,2,3,4,5）">
+                            <button class="demo-button" onclick="processArray()">處理陣列</button>
+                            <div class="demo-result" id="arrayResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二階段：物件導向程式設計（OOP） -->
+        <div class="learning-map" id="stage2">
+            <h2>🧱 第二階段：物件導向程式設計（OOP）</h2>
+            <p>這個階段我們會學習物件導向程式設計，就像學習如何設計和建造房子一樣！</p>
+
+            <!-- 類別與物件 -->
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>🏗️ 類別與物件</h3>
+                    <span>▼</span>
+                </div>
+                <div class="stage-content">
+                    <div class="topic">
+                        <h4>什麼是類別和物件？</h4>
+                        <p>類別就像是「設計圖」，物件就像是根據設計圖建造出來的「房子」。類別定義了物件應該有什麼特性和行為。</p>
+                        
+                        <div class="code-example">
+<span class="code-comment">// 類別與物件的完整教學</span>
+<span class="code-keyword">using</span> System;
+
+<span class="code-comment">// 1. 定義一個「學生」類別 - 這是設計圖</span>
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> Student
+{
+    <span class="code-comment">// 欄位 (Fields) - 用來儲存資料</span>
+    <span class="code-keyword">private</span> <span class="code-keyword">string</span> name;           <span class="code-comment">// 學生姓名</span>
+    <span class="code-keyword">private</span> <span class="code-keyword">int</span> age;              <span class="code-comment">// 學生年齡</span>
+    <span class="code-keyword">private</span> <span class="code-keyword">string</span> studentId;       <span class="code-comment">// 學號</span>
+    <span class="code-keyword">private</span> <span class="code-keyword">double</span>[] scores;       <span class="code-comment">// 成績陣列</span>
+    
+    <span class="code-comment">// 建構子 (Constructor) - 用來初始化物件</span>
+    <span class="code-keyword">public</span> Student(<span class="code-keyword">string</span> studentName, <span class="code-keyword">int</span> studentAge, <span class="code-keyword">string</span> id)
+    {
+        name = studentName;        <span class="code-comment">// 設定姓名</span>
+        age = studentAge;          <span class="code-comment">// 設定年齡</span>
+        studentId = id;            <span class="code-comment">// 設定學號</span>
+        scores = <span class="code-keyword">new</span> <span class="code-keyword">double</span>[5];    <span class="code-comment">// 建立成績陣列，預設5個科目</span>
+    }
+    
+    <span class="code-comment">// 屬性 (Properties) - 用來存取私有欄位</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">string</span> Name
+    {
+        <span class="code-keyword">get</span> { <span class="code-keyword">return</span> name; }        <span class="code-comment">// 取得姓名</span>
+        <span class="code-keyword">set</span> { name = <span class="code-keyword">value</span>; }      <span class="code-comment">// 設定姓名</span>
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">int</span> Age
+    {
+        <span class="code-keyword">get</span> { <span class="code-keyword">return</span> age; }          <span class="code-comment">// 取得年齡</span>
+        <span class="code-keyword">set</span> { age = <span class="code-keyword">value</span>; }        <span class="code-comment">// 設定年齡</span>
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">string</span> StudentId
+    {
+        <span class="code-keyword">get</span> { <span class="code-keyword">return</span> studentId; }  <span class="code-comment">// 取得學號</span>
+    }
+    
+    <span class="code-comment">// 方法 (Methods) - 用來定義行為</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">void</span> SetScore(<span class="code-keyword">int</span> subjectIndex, <span class="code-keyword">double</span> score)
+    {
+        <span class="code-comment">// 檢查科目索引是否有效</span>
+        <span class="code-keyword">if</span> (subjectIndex >= 0 && subjectIndex < scores.Length)
+        {
+            scores[subjectIndex] = score;
+            Console.WriteLine(<span class="code-string">"已設定第"</span> + (subjectIndex + 1) + <span class="code-string">"科成績："</span> + score);
+        }
+        <span class="code-keyword">else</span>
+        {
+            Console.WriteLine(<span class="code-string">"科目索引無效！"</span>);
+        }
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">double</span> GetScore(<span class="code-keyword">int</span> subjectIndex)
+    {
+        <span class="code-keyword">if</span> (subjectIndex >= 0 && subjectIndex < scores.Length)
+        {
+            <span class="code-keyword">return</span> scores[subjectIndex];
+        }
+        <span class="code-keyword">return</span> -1;  <span class="code-comment">// 回傳-1表示無效</span>
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">double</span> GetAverageScore()
+    {
+        <span class="code-keyword">double</span> total = 0;
+        <span class="code-keyword">int</span> count = 0;
+        
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 0; i < scores.Length; i++)
+        {
+            <span class="code-keyword">if</span> (scores[i] > 0)  <span class="code-comment">// 只計算有成績的科目</span>
+            {
+                total += scores[i];
+                count++;
+            }
+        }
+        
+        <span class="code-keyword">return</span> count > 0 ? total / count : 0;  <span class="code-comment">// 使用三元運算子</span>
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">void</span> DisplayInfo()
+    {
+        Console.WriteLine(<span class="code-string">"=== 學生資料 ==="</span>);
+        Console.WriteLine(<span class="code-string">"姓名："</span> + name);
+        Console.WriteLine(<span class="code-string">"年齡："</span> + age + <span class="code-string">"歲"</span>);
+        Console.WriteLine(<span class="code-string">"學號："</span> + studentId);
+        Console.WriteLine(<span class="code-string">"平均成績："</span> + GetAverageScore().ToString(<span class="code-string">"F2"</span>));
+        
+        Console.WriteLine(<span class="code-string">"各科成績："</span>);
+        <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = 0; i < scores.Length; i++)
+        {
+            <span class="code-keyword">if</span> (scores[i] > 0)
+            {
+                Console.WriteLine(<span class="code-string">"  第"</span> + (i + 1) + <span class="code-string">"科："</span> + scores[i]);
+            }
+        }
+    }
+}
+
+<span class="code-comment">// 主程式類別</span>
+<span class="code-keyword">class</span> Program
+{
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> Main(<span class="code-keyword">string</span>[] args)
+    {
+        Console.WriteLine(<span class="code-string">"=== 類別與物件示範 ===\n"</span>);
+        
+        <span class="code-comment">// 2. 建立學生物件 - 根據設計圖建造房子</span>
+        Console.WriteLine(<span class="code-string">"建立學生物件..."</span>);
+        
+        <span class="code-comment">// 建立第一個學生物件</span>
+        Student student1 = <span class="code-keyword">new</span> Student(<span class="code-string">"小明"</span>, 18, <span class="code-string">"S001"</span>);
+        
+        <span class="code-comment">// 設定學生成績</span>
+        student1.SetScore(0, 85);   <span class="code-comment">// 第1科：85分</span>
+        student1.SetScore(1, 92);   <span class="code-comment">// 第2科：92分</span>
+        student1.SetScore(2, 78);   <span class="code-comment">// 第3科：78分</span>
+        student1.SetScore(3, 95);   <span class="code-comment">// 第4科：95分</span>
+        student1.SetScore(4, 88);   <span class="code-comment">// 第5科：88分</span>
+        
+        <span class="code-comment">// 顯示學生資料</span>
+        student1.DisplayInfo();
+        
+        <span class="code-comment">// 建立第二個學生物件</span>
+        Console.WriteLine(<span class="code-string">"\n建立第二個學生..."</span>);
+        Student student2 = <span class="code-keyword">new</span> Student(<span class="code-string">"小華"</span>, 19, <span class="code-string">"S002"</span>);
+        
+        <span class="code-keyword">// 使用屬性來設定資料</span>
+        student2.Age = 20;  <span class="code-comment">// 修改年齡</span>
+        student2.SetScore(0, 90);
+        student2.SetScore(1, 85);
+        student2.SetScore(2, 92);
+        
+        student2.DisplayInfo();
+        
+        <span class="code-comment">// 3. 測試各種功能</span>
+        Console.WriteLine(<span class="code-string">"\n=== 功能測試 ==="</span>);
+        Console.WriteLine(<span class="code-string">"學生1的第3科成績："</span> + student1.GetScore(2));
+        Console.WriteLine(<span class="code-string">"學生2的姓名："</span> + student2.Name);
+        Console.WriteLine(<span class="code-string">"學生2的年齡："</span> + student2.Age);
+        
+        <span class="code-comment">// 4. 建立學生陣列</span>
+        Console.WriteLine(<span class="code-string">"\n=== 學生陣列示範 ==="</span>);
+        Student[] students = <span class="code-keyword">new</span> Student[3];
+        students[0] = student1;
+        students[1] = student2;
+        students[2] = <span class="code-keyword">new</span> Student(<span class="code-string">"小美"</span>, 17, <span class="code-string">"S003"</span>);
+        
+        <span class="code-comment">// 顯示所有學生資料</span>
+        <span class="code-keyword">foreach</span> (Student student <span class="code-keyword">in</span> students)
+        {
+            student.DisplayInfo();
+            Console.WriteLine();
+        }
+    }
+}
+                        </div>
+
+                        <div class="output-example">
+                            <h5>📱 程式執行結果：</h5>
+                            <p>=== 類別與物件示範 ===</p>
+                            <p></p>
+                            <p>建立學生物件...</p>
+                            <p>已設定第1科成績：85</p>
+                            <p>已設定第2科成績：92</p>
+                            <p>已設定第3科成績：78</p>
+                            <p>已設定第4科成績：95</p>
+                            <p>已設定第5科成績：88</p>
+                            <p>=== 學生資料 ===</p>
+                            <p>姓名：小明</p>
+                            <p>年齡：18歲</p>
+                            <p>學號：S001</p>
+                            <p>平均成績：87.60</p>
+                            <p>各科成績：</p>
+                            <p>  第1科：85</p>
+                            <p>  第2科：92</p>
+                            <p>  第3科：78</p>
+                            <p>  第4科：95</p>
+                            <p>  第5科：88</p>
+                            <p></p>
+                            <p>建立第二個學生...</p>
+                            <p>已設定第1科成績：90</p>
+                            <p>已設定第2科成績：85</p>
+                            <p>已設定第3科成績：92</p>
+                            <p>=== 學生資料 ===</p>
+                            <p>姓名：小華</p>
+                            <p>年齡：20歲</p>
+                            <p>學號：S002</p>
+                            <p>平均成績：89.00</p>
+                            <p>各科成績：</p>
+                            <p>  第1科：90</p>
+                            <p>  第2科：85</p>
+                            <p>  第3科：92</p>
+                            <p></p>
+                            <p>=== 功能測試 ===</p>
+                            <p>學生1的第3科成績：78</p>
+                            <p>學生2的姓名：小華</p>
+                            <p>學生2的年齡：20</p>
+                            <p></p>
+                            <p>=== 學生陣列示範 ===</p>
+                            <p>=== 學生資料 ===</p>
+                            <p>姓名：小明</p>
+                            <p>年齡：18歲</p>
+                            <p>學號：S001</p>
+                            <p>平均成績：87.60</p>
+                            <p>各科成績：</p>
+                            <p>  第1科：85</p>
+                            <p>  第2科：92</p>
+                            <p>  第3科：78</p>
+                            <p>  第4科：95</p>
+                            <p>  第5科：88</p>
+                            <p></p>
+                            <p>=== 學生資料 ===</p>
+                            <p>姓名：小華</p>
+                            <p>年齡：20歲</p>
+                            <p>學號：S002</p>
+                            <p>平均成績：89.00</p>
+                            <p>各科成績：</p>
+                            <p>  第1科：90</p>
+                            <p>  第2科：85</p>
+                            <p>  第3科：92</p>
+                            <p></p>
+                            <p>=== 學生資料 ===</p>
+                            <p>姓名：小美</p>
+                            <p>年齡：17歲</p>
+                            <p>學號：S003</p>
+                            <p>平均成績：0.00</p>
+                            <p>各科成績：</p>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5>💡 類別設計的重要概念：</h5>
+                            <ul>
+                                <li><strong>封裝：</strong> 使用private來隱藏內部資料，使用public來提供外部存取</li>
+                                <li><strong>建構子：</strong> 用來初始化物件，名稱必須和類別名稱相同</li>
+                                <li><strong>屬性：</strong> 提供get和set方法來安全地存取私有欄位</li>
+                                <li><strong>方法：</strong> 定義物件可以執行的行為</li>
+                                <li><strong>this關鍵字：</strong> 用來指稱目前的物件實例</li>
+                                <li><strong>物件建立：</strong> 使用new關鍵字來建立物件實例</li>
+                            </ul>
+                        </div>
+
+                        <div class="practice-exercise">
+                            <h5>✏️ 練習題：建立商品類別</h5>
+                            <p>請你建立一個「商品」類別，包含：</p>
+                            <ul>
+                                <li>商品編號、名稱、價格、庫存數量</li>
+                                <li>建構子來初始化商品</li>
+                                <li>方法來增加/減少庫存</li>
+                                <li>方法來計算總價值（價格 × 庫存）</li>
+                                <li>方法來顯示商品資訊</li>
+                            </ul>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h5>🎮 互動式練習：學生管理系統</h5>
+                            <p>請輸入學生資料來建立學生物件：</p>
+                            <input type="text" class="demo-input" id="studentName" placeholder="請輸入學生姓名">
+                            <input type="number" class="demo-input" id="studentAge" placeholder="請輸入學生年齡">
+                            <input type="text" class="demo-input" id="studentId" placeholder="請輸入學號">
+                            <button class="demo-button" onclick="createStudent()">建立學生</button>
+                            <div class="demo-result" id="studentResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 繼承與多型 -->
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>🔄 繼承與多型</h3>
+                    <span>▼</span>
+                </div>
+                <div class="stage-content">
+                    <div class="topic">
+                        <h4>什麼是繼承和多型？</h4>
+                        <p>繼承就是子類別可以繼承父類別的特性和行為，多型就是同一個方法在不同類別中有不同的實作！</p>
+                        
+                        <div class="code-example">
+<span class="code-comment">// 繼承與多型完整教學</span>
+<span class="code-keyword">using</span> System;
+
+<span class="code-comment">// 1. 基礎類別（父類別）- 動物</span>
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> Animal
+{
+    <span class="code-comment">// 保護的欄位 - 子類別可以存取</span>
+    <span class="code-keyword">protected</span> <span class="code-keyword">string</span> name;
+    <span class="code-keyword">protected</span> <span class="code-keyword">int</span> age;
+    
+    <span class="code-comment">// 建構子</span>
+    <span class="code-keyword">public</span> Animal(<span class="code-keyword">string</span> animalName, <span class="code-keyword">int</span> animalAge)
+    {
+        name = animalName;
+        age = animalAge;
+    }
+    
+    <span class="code-comment">// 虛擬方法 - 子類別可以覆寫</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">virtual</span> <span class="code-keyword">void</span> MakeSound()
+    {
+        Console.WriteLine(<span class="code-string">"動物發出聲音"</span>);
+    }
+    
+    <span class="code-comment">// 虛擬方法 - 子類別可以覆寫</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">virtual</span> <span class="code-keyword">void</span> Move()
+    {
+        Console.WriteLine(<span class="code-string">"動物移動"</span>);
+    }
+    
+    <span class="code-comment">// 一般方法 - 子類別繼承但不能覆寫</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">void</span> Sleep()
+    {
+        Console.WriteLine(name + <span class="code-string">"正在睡覺..."</span>);
+    }
+    
+    <span class="code-comment">// 顯示動物資訊</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">virtual</span> <span class="code-keyword">void</span> DisplayInfo()
+    {
+        Console.WriteLine(<span class="code-string">"=== 動物資訊 ==="</span>);
+        Console.WriteLine(<span class="code-string">"名稱："</span> + name);
+        Console.WriteLine(<span class="code-string">"年齡："</span> + age + <span class="code-string">"歲"</span>);
+    }
+}
+
+<span class="code-comment">// 2. 子類別 - 狗類別，繼承自Animal</span>
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> Dog : Animal  <span class="code-comment">// 使用冒號來繼承</span>
+{
+    <span class="code-keyword">private</span> <span class="code-keyword">string</span> breed;  <span class="code-comment">// 狗的品種</span>
+    
+    <span class="code-comment">// 建構子 - 呼叫父類別建構子</span>
+    <span class="code-keyword">public</span> Dog(<span class="code-keyword">string</span> dogName, <span class="code-keyword">int</span> dogAge, <span class="code-keyword">string</span> dogBreed) 
+        : <span class="code-keyword">base</span>(dogName, dogAge)  <span class="code-comment">// 呼叫父類別建構子</span>
+    {
+        breed = dogBreed;
+    }
+    
+    <span class="code-comment">// 覆寫父類別的方法</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">override</span> <span class="code-keyword">void</span> MakeSound()
+    {
+        Console.WriteLine(name + <span class="code-string">"汪汪叫！"</span>);
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">override</span> <span class="code-keyword">void</span> Move()
+    {
+        Console.WriteLine(name + <span class="code-string">"用四條腿跑步！"</span>);
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">override</span> <span class="code-keyword">void</span> DisplayInfo()
+    {
+        <span class="code-keyword">base</span>.DisplayInfo();  <span class="code-comment">// 呼叫父類別的方法</span>
+        Console.WriteLine(<span class="code-string">"品種："</span> + breed);
+        Console.WriteLine(<span class="code-string">"類型：狗"</span>);
+    }
+    
+    <span class="code-comment">// 狗特有的方法</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">void</span> WagTail()
+    {
+        Console.WriteLine(name + <span class="code-string">"搖尾巴！"</span>);
+    }
+}
+
+<span class="code-comment">// 3. 子類別 - 貓類別，繼承自Animal</span>
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> Cat : Animal
+{
+    <span class="code-keyword">private</span> <span class="code-keyword">bool</span> isIndoor;  <span class="code-comment">// 是否為室內貓</span>
+    
+    <span class="code-comment">// 建構子</span>
+    <span class="code-keyword">public</span> Cat(<span class="code-keyword">string</span> catName, <span class="code-keyword">int</span> catAge, <span class="code-keyword">bool</span> indoor) 
+        : <span class="code-keyword">base</span>(catName, catAge)
+    {
+        isIndoor = indoor;
+    }
+    
+    <span class="code-comment">// 覆寫父類別的方法</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">override</span> <span class="code-keyword">void</span> MakeSound()
+    {
+        Console.WriteLine(name + <span class="code-string">"喵喵叫！"</span>);
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">override</span> <span class="code-keyword">void</span> Move()
+    {
+        Console.WriteLine(name + <span class="code-string">"優雅地走路！"</span>);
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">override</span> <span class="code-keyword">void</span> DisplayInfo()
+    {
+        <span class="code-keyword">base</span>.DisplayInfo();
+        Console.WriteLine(<span class="code-string">"室內貓："</span> + (isIndoor ? <span class="code-string">"是"</span> : <span class="code-string">"否"</span>));
+        Console.WriteLine(<span class="code-string">"類型：貓"</span>);
+    }
+    
+    <span class="code-comment">// 貓特有的方法</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">void</span> ClimbTree()
+    {
+        <span class="code-keyword">if</span> (!isIndoor)
+        {
+            Console.WriteLine(name + <span class="code-string">"爬樹！"</span>);
+        }
+        <span class="code-keyword">else</span>
+        {
+            Console.WriteLine(name + <span class="code-string">"是室內貓，不會爬樹。"</span>);
+        }
+    }
+}
+
+<span class="code-comment">// 4. 子類別 - 鳥類別，繼承自Animal</span>
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> Bird : Animal
+{
+    <span class="code-keyword">private</span> <span class="code-keyword">bool</span> canFly;  <span class="code-comment">// 是否能飛</span>
+    
+    <span class="code-comment">// 建構子</span>
+    <span class="code-keyword">public</span> Bird(<span class="code-keyword">string</span> birdName, <span class="code-keyword">int</span> birdAge, <span class="code-keyword">bool</span> fly) 
+        : <span class="code-keyword">base</span>(birdName, birdAge)
+    {
+        canFly = fly;
+    }
+    
+    <span class="code-comment">// 覆寫父類別的方法</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">override</span> <span class="code-keyword">void</span> MakeSound()
+    {
+        Console.WriteLine(name + <span class="code-string">"啾啾叫！"</span>);
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">override</span> <span class="code-keyword">void</span> Move()
+    {
+        <span class="code-keyword">if</span> (canFly)
+        {
+            Console.WriteLine(name + <span class="code-string">"在天空中飛翔！"</span>);
+        }
+        <span class="code-keyword">else</span>
+        {
+            Console.WriteLine(name + <span class="code-keyword">"在地上跳躍！"</span>);
+        }
+    }
+    
+    <span class="code-keyword">public</span> <span class="code-keyword">override</span> <span class="code-keyword">void</span> DisplayInfo()
+    {
+        <span class="code-keyword">base</span>.DisplayInfo();
+        Console.WriteLine(<span class="code-string">"能飛："</span> + (canFly ? <span class="code-string">"是"</span> : <span class="code-string">"否"</span>));
+        Console.WriteLine(<span class="code-string">"類型：鳥"</span>);
+    }
+    
+    <span class="code-comment">// 鳥特有的方法</span>
+    <span class="code-keyword">public</span> <span class="code-keyword">void</span> LayEggs()
+    {
+        Console.WriteLine(name + <span class="code-string">"下蛋！"</span>);
+    }
+}
+
+<span class="code-comment">// 5. 主程式類別</span>
+<span class="code-keyword">class</span> Program
+{
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> Main(<span class="code-keyword">string</span>[] args)
+    {
+        Console.WriteLine(<span class="code-string">"=== 繼承與多型示範 ===\n"</span>);
+        
+        <span class="code-comment">// 建立各種動物物件</span>
+        Dog dog = <span class="code-keyword">new</span> Dog(<span class="code-string">"小白"</span>, 3, <span class="code-string">"拉布拉多"</span>);
+        Cat cat = <span class="code-keyword">new</span> Cat(<span class="code-string">"咪咪"</span>, 2, <span class="code-keyword">true</span>);
+        Bird bird = <span class="code-keyword">new</span> Bird(<span class="code-string">"小黃"</span>, 1, <span class="code-keyword">true</span>);
+        
+        <span class="code-comment">// 1. 繼承示範 - 子類別可以使用父類別的方法</span>
+        Console.WriteLine(<span class="code-string">"=== 繼承示範 ==="</span>);
+        dog.Sleep();  <span class="code-comment">// 使用繼承自父類別的方法</span>
+        cat.Sleep();
+        bird.Sleep();
+        
+        <span class="code-comment">// 2. 多型示範 - 同一個方法在不同類別中有不同實作</span>
+        Console.WriteLine(<span class="code-string">"\n=== 多型示範 ==="</span>);
+        Console.WriteLine(<span class="code-string">"動物們發出聲音："</span>);
+        dog.MakeSound();    <span class="code-keyword">// 汪汪叫</span>
+        cat.MakeSound();    <span class="code-keyword">// 喵喵叫</span>
+        bird.MakeSound();   <span class="code-keyword">// 啾啾叫</span>
+        
+        Console.WriteLine(<span class="code-string">"\n動物們移動："</span>);
+        dog.Move();         <span class="code-keyword">// 用四條腿跑步</span>
+        cat.Move();         <span class="code-keyword">// 優雅地走路</span>
+        bird.Move();        <span class="code-keyword">// 在天空中飛翔</span>
+        
+        <span class="code-comment">// 3. 使用父類別參考來呼叫子類別方法</span>
+        Console.WriteLine(<span class="code-string">"\n=== 父類別參考示範 ==="</span>);
+        Animal[] animals = { dog, cat, bird };
+        
+        <span class="code-keyword">foreach</span> (Animal animal <span class="code-keyword">in</span> animals)
+        {
+            animal.DisplayInfo();  <span class="code-keyword">// 多型：會呼叫子類別的實作</span>
+            animal.MakeSound();    <span class="code-keyword">// 多型：會呼叫子類別的實作</span>
+            Console.WriteLine();
+        }
+        
+        <span class="code-keyword">// 4. 呼叫子類別特有的方法</span>
+        Console.WriteLine(<span class="code-string">"=== 子類別特有方法 ==="</span>);
+        dog.WagTail();      <span class="code-comment">// 狗特有的方法</span>
+        cat.ClimbTree();    <span class="code-comment">// 貓特有的方法</span>
+        bird.LayEggs();     <span class="code-comment">// 鳥特有的方法</span>
+        
+        <span class="code-comment">// 5. 型別檢查和轉換</span>
+        Console.WriteLine(<span class="code-string">"\n=== 型別檢查和轉換 ==="</span>);
+        <span class="code-keyword">foreach</span> (Animal animal <span class="code-keyword">in</span> animals)
+        {
+            <span class="code-keyword">if</span> (animal <span class="code-keyword">is</span> Dog)
+            {
+                Dog dogAnimal = (Dog)animal;  <span class="code-comment">// 型別轉換</span>
+                dogAnimal.WagTail();
+            }
+            <span class="code-keyword">else</span> <span class="code-keyword">if</span> (animal <span class="code-keyword">is</span> Cat)
+            {
+                Cat catAnimal = animal <span class="code-keyword">as</span> Cat;  <span class="code-keyword">// 使用as關鍵字轉換</span>
+                <span class="code-keyword">if</span> (catAnimal != <span class="code-keyword">null</span>)
+                {
+                    catAnimal.ClimbTree();
+                }
+            }
+            <span class="code-keyword">else</span> <span class="code-keyword">if</span> (animal <span class="code-keyword">is</span> Bird)
+            {
+                Bird birdAnimal = animal <span class="code-keyword">as</span> Bird;
+                <span class="code-keyword">if</span> (birdAnimal != <span class="code-keyword">null</span>)
+                {
+                    birdAnimal.LayEggs();
+                }
+            }
+        }
+    }
+}
+                        </div>
+
+                        <div class="output-example">
+                            <h5>📱 程式執行結果：</h5>
+                            <p>=== 繼承與多型示範 ===</p>
+                            <p></p>
+                            <p>=== 繼承示範 ===</p>
+                            <p>小白正在睡覺...</p>
+                            <p>咪咪正在睡覺...</p>
+                            <p>小黃正在睡覺...</p>
+                            <p></p>
+                            <p>=== 多型示範 ===</p>
+                            <p>動物們發出聲音：</p>
+                            <p>小白汪汪叫！</p>
+                            <p>咪咪喵喵叫！</p>
+                            <p>小黃啾啾叫！</p>
+                            <p></p>
+                            <p>動物們移動：</p>
+                            <p>小白用四條腿跑步！</p>
+                            <p>咪咪優雅地走路！</p>
+                            <p>小黃在天空中飛翔！</p>
+                            <p></p>
+                            <p>=== 父類別參考示範 ===</p>
+                            <p>=== 動物資訊 ===</p>
+                            <p>名稱：小白</p>
+                            <p>年齡：3歲</p>
+                            <p>品種：拉布拉多</p>
+                            <p>類型：狗</p>
+                            <p>小白汪汪叫！</p>
+                            <p></p>
+                            <p>=== 動物資訊 ===</p>
+                            <p>名稱：咪咪</p>
+                            <p>年齡：2歲</p>
+                            <p>室內貓：是</p>
+                            <p>類型：貓</p>
+                            <p>咪咪喵喵叫！</p>
+                            <p></p>
+                            <p>=== 動物資訊 ===</p>
+                            <p>名稱：小黃</p>
+                            <p>年齡：1歲</p>
+                            <p>能飛：是</p>
+                            <p>類型：鳥</p>
+                            <p>小黃啾啾叫！</p>
+                            <p></p>
+                            <p>=== 子類別特有方法 ===</p>
+                            <p>小白搖尾巴！</p>
+                            <p>咪咪是室內貓，不會爬樹。</p>
+                            <p>小黃下蛋！</p>
+                            <p></p>
+                            <p>=== 型別檢查和轉換 ===</p>
+                            <p>小白搖尾巴！</p>
+                            <p>咪咪是室內貓，不會爬樹。</p>
+                            <p>小黃下蛋！</p>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5>💡 繼承與多型的重要概念：</h5>
+                            <ul>
+                                <li><strong>繼承：</strong> 使用冒號(:)來繼承，子類別可以繼承父類別的所有public和protected成員</li>
+                                <li><strong>虛擬方法：</strong> 使用virtual關鍵字標記，子類別可以使用override來覆寫</li>
+                                <li><strong>覆寫：</strong> 使用override關鍵字來覆寫父類別的虛擬方法</li>
+                                <li><strong>base關鍵字：</strong> 用來呼叫父類別的方法或建構子</li>
+                                <li><strong>多型：</strong> 父類別參考可以指向子類別物件，呼叫方法時會執行子類別的實作</li>
+                                <li><strong>型別檢查：</strong> 使用is關鍵字檢查物件型別</li>
+                                <li><strong>型別轉換：</strong> 使用()或as關鍵字進行型別轉換</li>
+                            </ul>
+                        </div>
+
+                        <div class="practice-exercise">
+                            <h5>✏️ 練習題：交通工具繼承系統</h5>
+                            <p>請你建立一個交通工具繼承系統：</p>
+                            <ul>
+                                <li>基礎類別：Vehicle（交通工具），包含速度、載客數等屬性</li>
+                                <li>子類別：Car（汽車）、Motorcycle（機車）、Bicycle（腳踏車）</li>
+                                <li>每個子類別都要有自己的特殊屬性和方法</li>
+                                <li>實作多型來顯示不同交通工具的資訊</li>
+                            </ul>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h5>🎮 互動式練習：動物繼承系統</h5>
+                            <p>請選擇要建立的動物類型：</p>
+                            <select class="demo-input" id="animalType">
+                                <option value="dog">狗</option>
+                                <option value="cat">貓</option>
+                                <option value="bird">鳥</option>
+                            </select>
+                            <input type="text" class="demo-input" id="animalName" placeholder="請輸入動物姓名">
+                            <input type="number" class="demo-input" id="animalAge" placeholder="請輸入動物年齡">
+                            <button class="demo-button" onclick="createAnimal()">建立動物</button>
+                            <div class="demo-result" id="animalResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三階段：進階語法與架構設計（實務應用） -->
+        <div class="learning-map" id="stage3">
+            <h2>🚀 第三階段：進階語法與架構設計（實務應用）</h2>
+            <p>這個階段我們會學習C#的進階語法和實際應用，就像學習如何建造摩天大樓一樣！</p>
+
+            <!-- LINQ -->
+            <div class="stage">
+                <div class="stage-header" onclick="toggleStage(this)">
+                    <h3>🔍 LINQ</h3>
+                    <span>▼</span>
+                </div>
+                <div class="stage-content">
+                    <div class="topic">
+                        <h4>什麼是LINQ？</h4>
+                        <p>LINQ（Language Integrated Query）是C#中用來查詢資料的強大工具，就像SQL一樣可以輕鬆地篩選、排序和處理資料！</p>
+                        
+                        <div class="code-example">
+<span class="code-comment">// LINQ完整教學</span>
+<span class="code-keyword">using</span> System;
+<span class="code-keyword">using</span> System.Linq;  <span class="code-comment">// 引入LINQ命名空間</span>
+<span class="code-keyword">using</span> System.Collections.Generic;
+
+<span class="code-comment">// 商品類別</span>
+<span class="code-keyword">public</span> <span class="code-keyword">class</span> Product
+{
+    <span class="code-keyword">public</span> <span class="code-keyword">int</span> Id { <span class="code-keyword">get</span>; <span class="code-keyword">set</span>; }
+    <span class="code-keyword">public</span> <span class="code-keyword">string</span> Name { <span class="code-keyword">get</span>; <span class="code-keyword">set</span>; }
+    <span class="code-keyword">public</span> <span class="code-keyword">decimal</span> Price { <span class="code-keyword">get</span>; <span class="code-keyword">set</span>; }
+    <span class="code-keyword">public</span> <span class="code-keyword">string</span> Category { <span class="code-keyword">get</span>; <span class="code-keyword">set</span>; }
+    <span class="code-keyword">public</span> <span class="code-keyword">int</span> Stock { <span class="code-keyword">get</span>; <span class="code-keyword">set</span>; }
+    
+    <span class="code-keyword">public</span> Product(<span class="code-keyword">int</span> id, <span class="code-keyword">string</span> name, <span class="code-keyword">decimal</span> price, <span class="code-keyword">string</span> category, <span class="code-keyword">int</span> stock)
+    {
+        Id = id;
+        Name = name;
+        Price = price;
+        Category = category;
+        Stock = stock;
+    }
+}
+
+<span class="code-keyword">class</span> Program
+{
+    <span class="code-keyword">static</span> <span class="code-keyword">void</span> Main(<span class="code-keyword">string</span>[] args)
+    {
+        Console.WriteLine(<span class="code-string">"=== LINQ完整教學 ===\n"</span>);
+        
+        <span class="code-comment">// 建立商品資料</span>
+        List&lt;Product&gt; products = <span class="code-keyword">new</span> List&lt;Product&gt;
+        {
+            <span class="code-keyword">new</span> Product(1, <span class="code-string">"iPhone 15"</span>, 29999, <span class="code-string">"手機"</span>, 50),
+            <span class="code-keyword">new</span> Product(2, <span class="code-string">"MacBook Pro"</span>, 59999, <span class="code-string">"筆電"</span>, 30),
+            <span class="code-keyword">new</span> Product(3, <span class="code-string">"iPad Air"</span>, 19999, <span class="code-string">"平板"</span>, 40),
+            <span class="code-keyword">new</span> Product(4, <span class="code-string">"AirPods Pro"</span>, 6999, <span class="code-string">"耳機"</span>, 100),
+            <span class="code-keyword">new</span> Product(5, <span class="code-string">"Apple Watch"</span>, 12999, <span class="code-string">"手錶"</span>, 25),
+            <span class="code-keyword">new</span> Product(6, <span class="code-string">"Samsung Galaxy"</span>, 24999, <span class="code-string">"手機"</span>, 35),
+            <span class="code-keyword">new</span> Product(7, <span class="code-string">"Dell XPS"</span>, 44999, <span class="code-string">"筆電"</span>, 20),
+            <span class="code-keyword">new</span> Product(8, <span class="code-string">"Sony WH-1000XM4"</span>, 8999, <span class="code-string">"耳機"</span>, 60)
+        };
+        
+        <span class="code-comment">// 1. 基本查詢 - 使用Where篩選</span>
+        Console.WriteLine(<span class="code-string">"=== 基本查詢示範 ==="</span>);
+        
+        <span class="code-comment">// 查詢所有手機</span>
+        <span class="code-keyword">var</span> phones = products.Where(p => p.Category == <span class="code-string">"手機"</span>);
+        Console.WriteLine(<span class="code-string">"所有手機："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> phone <span class="code-keyword">in</span> phones)
+        {
+            Console.WriteLine(<span class="code-string">"- "</span> + phone.Name + <span class="code-string">" ($"</span> + phone.Price + <span class="code-string">")"</span>);
+        }
+        
+        <span class="code-comment">// 查詢價格超過20000的商品</span>
+        <span class="code-keyword">var</span> expensiveProducts = products.Where(p => p.Price > 20000);
+        Console.WriteLine(<span class="code-string">"\n價格超過20000的商品："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> product <span class="code-keyword">in</span> expensiveProducts)
+        {
+            Console.WriteLine(<span class="code-string">"- "</span> + product.Name + <span class="code-string">" ($"</span> + product.Price + <span class="code-string">")"</span>);
+        }
+        
+        <span class="code-comment">// 2. 排序 - 使用OrderBy和OrderByDescending</span>
+        Console.WriteLine(<span class="code-string">"\n=== 排序示範 ==="</span>);
+        
+        <span class="code-comment">// 按價格升序排列</span>
+        <span class="code-keyword">var</span> productsByPrice = products.OrderBy(p => p.Price);
+        Console.WriteLine(<span class="code-string">"按價格升序排列："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> product <span class="code-keyword">in</span> productsByPrice)
+        {
+            Console.WriteLine(<span class="code-string">"- "</span> + product.Name + <span class="code-string">" ($"</span> + product.Price + <span class="code-string">")"</span>);
+        }
+        
+        <span class="code-comment">// 按價格降序排列</span>
+        <span class="code-keyword">var</span> productsByPriceDesc = products.OrderByDescending(p => p.Price);
+        Console.WriteLine(<span class="code-string">"\n按價格降序排列："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> product <span class="code-keyword">in</span> productsByPriceDesc.Take(3))  <span class="code-comment">// 只顯示前3個</span>
+        {
+            Console.WriteLine(<span class="code-string">"- "</span> + product.Name + <span class="code-string">" ($"</span> + product.Price + <span class="code-string">")"</span>);
+        }
+        
+        <span class="code-comment">// 3. 投影 - 使用Select</span>
+        Console.WriteLine(<span class="code-string">"\n=== 投影示範 ==="</span>);
+        
+        <span class="code-comment">// 只選擇名稱和價格</span>
+        <span class="code-keyword">var</span> productNames = products.Select(p => <span class="code-keyword">new</span> { p.Name, p.Price });
+        Console.WriteLine(<span class="code-string">"商品名稱和價格："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> item <span class="code-keyword">in</span> productNames)
+        {
+            Console.WriteLine(<span class="code-string">"- "</span> + item.Name + <span class="code-string">" ($"</span> + item.Price + <span class="code-string">")"</span>);
+        }
+        
+        <span class="code-comment">// 4. 分組 - 使用GroupBy</span>
+        Console.WriteLine(<span class="code-string">"\n=== 分組示範 ==="</span>);
+        
+        <span class="code-keyword">var</span> productsByCategory = products.GroupBy(p => p.Category);
+        Console.WriteLine(<span class="code-string">"按類別分組："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> group <span class="code-keyword">in</span> productsByCategory)
+        {
+            Console.WriteLine(<span class="code-string">"\n類別："</span> + group.Key);
+            Console.WriteLine(<span class="code-string">"商品數量："</span> + group.Count());
+            Console.WriteLine(<span class="code-string">"平均價格：$"</span> + group.Average(p => p.Price).ToString(<span class="code-string">"F0"</span>));
+            
+            <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> product <span class="code-keyword">in</span> group)
+            {
+                Console.WriteLine(<span class="code-string">"  - "</span> + product.Name + <span class="code-string">" ($"</span> + product.Price + <span class="code-string">")"</span>);
+            }
+        }
+        
+        <span class="code-comment">// 5. 聚合函數</span>
+        Console.WriteLine(<span class="code-string">"\n=== 聚合函數示範 ==="</span>);
+        
+        <span class="code-keyword">decimal</span> totalValue = products.Sum(p => p.Price * p.Stock);
+        <span class="code-keyword">decimal</span> averagePrice = products.Average(p => p.Price);
+        <span class="code-keyword">int</span> totalStock = products.Sum(p => p.Stock);
+        <span class="code-keyword">int</span> maxStock = products.Max(p => p.Stock);
+        <span class="code-keyword">int</span> minStock = products.Min(p => p.Stock);
+        
+        Console.WriteLine(<span class="code-string">"總庫存價值：$"</span> + totalValue.ToString(<span class="code-string">"N0"</span>));
+        Console.WriteLine(<span class="code-string">"平均價格：$"</span> + averagePrice.ToString(<span class="code-string">"F0"</span>));
+        Console.WriteLine(<span class="code-string">"總庫存數量："</span> + totalStock);
+        Console.WriteLine(<span class="code-string">"最大庫存："</span> + maxStock);
+        Console.WriteLine(<span class="code-string">"最小庫存："</span> + minStock);
+        
+        <span class="code-comment">// 6. 複合查詢</span>
+        Console.WriteLine(<span class="code-string">"\n=== 複合查詢示範 ==="</span>);
+        
+        <span class="code-comment">// 查詢庫存不足且價格超過10000的商品</span>
+        <span class="code-keyword">var</span> criticalProducts = products
+            .Where(p => p.Stock < 40 && p.Price > 10000)
+            .OrderBy(p => p.Stock)
+            .Select(p => <span class="code-keyword">new</span> { p.Name, p.Stock, p.Price });
+        
+        Console.WriteLine(<span class="code-string">"庫存不足且價格超過10000的商品："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> product <span class="code-keyword">in</span> criticalProducts)
+        {
+            Console.WriteLine(<span class="code-string">"- "</span> + product.Name + <span class="code-string">" (庫存："</span> + product.Stock + <span class="code-string">", 價格：$"</span> + product.Price + <span class="code-string">")"</span>);
+        }
+        
+        <span class="code-comment">// 7. 分頁 - 使用Skip和Take</span>
+        Console.WriteLine(<span class="code-string">"\n=== 分頁示範 ==="</span>);
+        
+        <span class="code-keyword">int</span> pageSize = 3;
+        <span class="code-keyword">int</span> pageNumber = 1;
+        
+        <span class="code-keyword">var</span> page1 = products.OrderBy(p => p.Price).Skip((pageNumber - 1) * pageSize).Take(pageSize);
+        Console.WriteLine(<span class="code-string">"第"</span> + pageNumber + <span class="code-string">"頁（每頁"</span> + pageSize + <span class="code-string">"個商品）："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> product <span class="code-keyword">in</span> page1)
+        {
+            Console.WriteLine(<span class="code-string">"- "</span> + product.Name + <span class="code-string">" ($"</span> + product.Price + <span class="code-string">")"</span>);
+        }
+        
+        <span class="code-comment">// 8. 查詢語法 vs 方法語法</span>
+        Console.WriteLine(<span class="code-string">"\n=== 查詢語法 vs 方法語法 ==="</span>);
+        
+        <span class="code-comment">// 方法語法（上面使用的）</span>
+        <span class="code-keyword">var</span> expensivePhones1 = products.Where(p => p.Category == <span class="code-string">"手機"</span> && p.Price > 20000);
+        
+        <span class="code-comment">// 查詢語法（類似SQL）</span>
+        <span class="code-keyword">var</span> expensivePhones2 = <span class="code-keyword">from</span> p <span class="code-keyword">in</span> products
+                                    <span class="code-keyword">where</span> p.Category == <span class="code-string">"手機"</span> && p.Price > 20000
+                                    <span class="code-keyword">select</span> p;
+        
+        Console.WriteLine(<span class="code-string">"使用查詢語法查詢昂貴手機："</span>);
+        <span class="code-keyword">foreach</span> (<span class="code-keyword">var</span> phone <span class="code-keyword">in</span> expensivePhones2)
+        {
+            Console.WriteLine(<span class="code-string">"- "</span> + phone.Name + <span class="code-string">" ($"</span> + phone.Price + <span class="code-string">")"</span>);
+        }
+    }
+}
+                        </div>
+
+                        <div class="output-example">
+                            <h5>📱 程式執行結果：</h5>
+                            <p>=== LINQ完整教學 ===</p>
+                            <p></p>
+                            <p>=== 基本查詢示範 ===</p>
+                            <p>所有手機：</p>
+                            <p>- iPhone 15 ($29999)</p>
+                            <p>- Samsung Galaxy ($24999)</p>
+                            <p></p>
+                            <p>價格超過20000的商品：</p>
+                            <p>- iPhone 15 ($29999)</p>
+                            <p>- MacBook Pro ($59999)</p>
+                            <p>- iPad Air ($19999)</p>
+                            <p>- Apple Watch ($12999)</p>
+                            <p>- Samsung Galaxy ($24999)</p>
+                            <p>- Dell XPS ($44999)</p>
+                            <p></p>
+                            <p>=== 排序示範 ===</p>
+                            <p>按價格升序排列：</p>
+                            <p>- AirPods Pro ($6999)</p>
+                            <p>- Sony WH-1000XM4 ($8999)</p>
+                            <p>- iPad Air ($19999)</p>
+                            <p>- Apple Watch ($12999)</p>
+                            <p>- Samsung Galaxy ($24999)</p>
+                            <p>- iPhone 15 ($29999)</p>
+                            <p>- Dell XPS ($44999)</p>
+                            <p>- MacBook Pro ($59999)</p>
+                            <p></p>
+                            <p>按價格降序排列：</p>
+                            <p>- MacBook Pro ($59999)</p>
+                            <p>- Dell XPS ($44999)</p>
+                            <p>- iPhone 15 ($29999)</p>
+                            <p></p>
+                            <p>=== 投影示範 ===</p>
+                            <p>商品名稱和價格：</p>
+                            <p>- iPhone 15 ($29999)</p>
+                            <p>- MacBook Pro ($59999)</p>
+                            <p>- iPad Air ($19999)</p>
+                            <p>- AirPods Pro ($6999)</p>
+                            <p>- Apple Watch ($12999)</p>
+                            <p>- Samsung Galaxy ($24999)</p>
+                            <p>- Dell XPS ($44999)</p>
+                            <p>- Sony WH-1000XM4 ($8999)</p>
+                            <p></p>
+                            <p>=== 分組示範 ===</p>
+                            <p>按類別分組：</p>
+                            <p></p>
+                            <p>類別：手機</p>
+                            <p>商品數量：2</p>
+                            <p>平均價格：$27499</p>
+                            <p>  - iPhone 15 ($29999)</p>
+                            <p>  - Samsung Galaxy ($24999)</p>
+                            <p></p>
+                            <p>類別：筆電</p>
+                            <p>商品數量：2</p>
+                            <p>平均價格：$52499</p>
+                            <p>  - MacBook Pro ($59999)</p>
+                            <p>  - Dell XPS ($44999)</p>
+                            <p></p>
+                            <p>類別：平板</p>
+                            <p>商品數量：1</p>
+                            <p>平均價格：$19999</p>
+                            <p>  - iPad Air ($19999)</p>
+                            <p></p>
+                            <p>類別：耳機</p>
+                            <p>商品數量：2</p>
+                            <p>平均價格：$7999</p>
+                            <p>  - AirPods Pro ($6999)</p>
+                            <p>  - Sony WH-1000XM4 ($8999)</p>
+                            <p></p>
+                            <p>類別：手錶</p>
+                            <p>商品數量：1</p>
+                            <p>平均價格：$12999</p>
+                            <p>  - Apple Watch ($12999)</p>
+                            <p></p>
+                            <p>=== 聚合函數示範 ===</p>
+                            <p>總庫存價值：$3,199,900</p>
+                            <p>平均價格：$23,750</p>
+                            <p>總庫存數量：360</p>
+                            <p>最大庫存：100</p>
+                            <p>最小庫存：20</p>
+                            <p></p>
+                            <p>=== 複合查詢示範 ===</p>
+                            <p>庫存不足且價格超過10000的商品：</p>
+                            <p>- Apple Watch (庫存：25, 價格：$12999)</p>
+                            <p>- Dell XPS (庫存：20, 價格：$44999)</p>
+                            <p>- MacBook Pro (庫存：30, 價格：$59999)</p>
+                            <p></p>
+                            <p>=== 分頁示範 ===</p>
+                            <p>第1頁（每頁3個商品）：</p>
+                            <p>- AirPods Pro ($6999)</p>
+                            <p>- Sony WH-1000XM4 ($8999)</p>
+                            <p>- iPad Air ($19999)</p>
+                            <p></p>
+                            <p>=== 查詢語法 vs 方法語法 ===</p>
+                            <p>使用查詢語法查詢昂貴手機：</p>
+                            <p>- iPhone 15 ($29999)</p>
+                            <p>- Samsung Galaxy ($24999)</p>
+                        </div>
+
+                        <div class="tip-box">
+                            <h5>💡 LINQ的重要概念：</h5>
+                            <ul>
+                                <li><strong>延遲執行：</strong> LINQ查詢在實際使用結果時才會執行</li>
+                                <li><strong>方法語法：</strong> 使用擴充方法，如Where、Select、OrderBy等</li>
+                                <li><strong>查詢語法：</strong> 使用類似SQL的語法，如from、where、select等</li>
+                                <li><strong>Lambda表達式：</strong> 用來定義篩選和投影條件</li>
+                                <li><strong>聚合函數：</strong> Sum、Average、Count、Max、Min等</li>
+                                <li><strong>分頁：</strong> 使用Skip和Take來實現分頁功能</li>
+                            </ul>
+                        </div>
+
+                        <div class="practice-exercise">
+                            <h5>✏️ 練習題：學生成績查詢系統</h5>
+                            <p>請你建立一個學生成績查詢系統：</p>
+                            <ul>
+                                <li>建立學生類別，包含姓名、班級、各科成績</li>
+                                <li>使用LINQ查詢：</li>
+                                <li>找出平均成績最高的學生</li>
+                                <li>按班級分組顯示各班的平均成績</li>
+                                <li>找出成績不及格的學生</li>
+                                <li>計算各科成績的統計資訊</li>
+                            </ul>
+                        </div>
+
+                        <div class="interactive-demo">
+                            <h5>🎮 互動式練習：LINQ查詢練習器</h5>
+                            <p>請選擇查詢條件：</p>
+                            <select class="demo-input" id="linqQuery">
+                                <option value="all">顯示所有商品</option>
+                                <option value="phones">只顯示手機</option>
+                                <option value="expensive">價格超過20000的商品</option>
+                                <option value="lowStock">庫存少於50的商品</option>
+                            </select>
+                            <button class="demo-button" onclick="executeLinqQuery()">執行查詢</button>
+                            <div class="demo-result" id="linqResult"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 切換學習階段顯示/隱藏
+        function toggleStage(header) {
+            const content = header.nextElementSibling;
+            const arrow = header.querySelector('span');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                arrow.textContent = '▼';
+            } else {
+                content.classList.add('active');
+                arrow.textContent = '▲';
+            }
+            
+            updateProgress();
+        }
+
+        // 更新學習進度
+        function updateProgress() {
+            const totalStages = document.querySelectorAll('.stage').length;
+            const activeStages = document.querySelectorAll('.stage-content.active').length;
+            const progress = (activeStages / totalStages) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // 會員資料顯示功能
+        function showMemberInfo() {
+            const name = document.getElementById('memberName').value || '未輸入';
+            const age = document.getElementById('memberAge').value || '未輸入';
+            const phone = document.getElementById('memberPhone').value || '未輸入';
+            
+            const result = `
+                <h6>📋 會員資料：</h6>
+                <p><strong>姓名：</strong>${name}</p>
+                <p><strong>年齡：</strong>${age}</p>
+                <p><strong>電話：</strong>${phone}</p>
+                <p><strong>會員狀態：</strong>一般會員</p>
+                <p><strong>積分：</strong>0</p>
+            `;
+            
+            document.getElementById('memberResult').innerHTML = result;
+            document.getElementById('memberResult').style.display = 'block';
+        }
+
+        // BMI計算功能
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('heightInput').value);
+            const weight = parseFloat(document.getElementById('weightInput').value);
+            
+            if (height && weight) {
+                const heightInMeters = height / 100;
+                const bmi = weight / (heightInMeters * heightInMeters);
+                
+                let status = '';
+                if (bmi < 18.5) {
+                    status = '體重過輕';
+                } else if (bmi < 24) {
+                    status = '體重正常';
+                } else if (bmi < 27) {
+                    status = '體重過重';
+                } else {
+                    status = '肥胖';
+                }
+                
+                const result = `
+                    <h6>📊 BMI計算結果：</h6>
+                    <p><strong>身高：</strong>${height} 公分</p>
+                    <p><strong>體重：</strong>${weight} 公斤</p>
+                    <p><strong>BMI值：</strong>${bmi.toFixed(1)}</p>
+                    <p><strong>體重狀態：</strong>${status}</p>
+                `;
+                
+                document.getElementById('bmiResult').innerHTML = result;
+                document.getElementById('bmiResult').style.display = 'block';
+            } else {
+                alert('請輸入有效的身高和體重！');
+            }
+        }
+
+        // 成績等級判斷功能
+        function checkGrade() {
+            const score = parseInt(document.getElementById('scoreInput').value);
+            
+            if (score >= 0 && score <= 100) {
+                let grade = '';
+                let advice = '';
+                
+                if (score >= 90) {
+                    grade = 'A級（優秀）';
+                    advice = '太棒了！繼續保持，你是學習的榜樣！';
+                } else if (score >= 80) {
+                    grade = 'B級（良好）';
+                    advice = '很好！再努力一點就能達到優秀！';
+                } else if (score >= 70) {
+                    grade = 'C級（中等）';
+                    advice = '不錯！多練習一些題目會更好！';
+                } else if (score >= 60) {
+                    grade = 'D級（及格）';
+                    advice = '及格了！但還需要更多努力！';
+                } else {
+                    grade = 'F級（不及格）';
+                    advice = '需要補考，建議多花時間學習！';
+                }
+                
+                const result = `
+                    <h6>📊 成績等級結果：</h6>
+                    <p><strong>分數：</strong>${score} 分</p>
+                    <p><strong>等級：</strong>${grade}</p>
+                    <p><strong>建議：</strong>${advice}</p>
+                `;
+                
+                document.getElementById('gradeResult').innerHTML = result;
+                document.getElementById('gradeResult').style.display = 'block';
+            } else {
+                alert('請輸入0-100之間的有效分數！');
+            }
+        }
+
+        // 頁面載入完成後初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+        });
+
+        // 迴圈練習功能
+        function practiceLoop() {
+            const number = parseInt(document.getElementById('loopInput').value);
+            
+            if (number >= 1 && number <= 20) {
+                let result = `<h6>🔄 迴圈練習結果：</h6>`;
+                
+                // for迴圈
+                result += `<p><strong>for迴圈從1數到${number}：</strong></p>`;
+                for (let i = 1; i <= number; i++) {
+                    result += `<span style="margin-right: 10px;">${i}</span>`;
+                }
+                
+                // while迴圈
+                result += `<p><strong>while迴圈倒數：</strong></p>`;
+                let count = number;
+                while (count > 0) {
+                    result += `<span style="margin-right: 10px;">${count}</span>`;
+                    count--;
+                }
+                
+                // 計算總和
+                let sum = 0;
+                for (let i = 1; i <= number; i++) {
+                    sum += i;
+                }
+                result += `<p><strong>1到${number}的總和：${sum}</strong></p>`;
+                
+                document.getElementById('loopResult').innerHTML = result;
+                document.getElementById('loopResult').style.display = 'block';
+            } else {
+                alert('請輸入1-20之間的有效數字！');
+            }
+        }
+
+        // 計算器功能
+        function calculate() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            
+            if (num1 && num2) {
+                const result = `
+                    <h6>🧮 計算結果：</h6>
+                    <p><strong>${num1} + ${num2} = ${num1 + num2}</strong></p>
+                    <p><strong>${num1} - ${num2} = ${num1 - num2}</strong></p>
+                    <p><strong>${num1} × ${num2} = ${num1 * num2}</strong></p>
+                    <p><strong>${num1} ÷ ${num2} = ${(num1 / num2).toFixed(2)}</strong></p>
+                    <p><strong>${num1} % ${num2} = ${num1 % num2}</strong></p>
+                    <p><strong>${num1} 的 ${num2} 次方 = ${Math.pow(num1, num2)}</strong></p>
+                `;
+                
+                document.getElementById('calcResult').innerHTML = result;
+                document.getElementById('calcResult').style.display = 'block';
+            } else {
+                alert('請輸入有效的數字！');
+            }
+        }
+
+        // 陣列操作功能
+        function processArray() {
+            const input = document.getElementById('arrayInput').value;
+            const numbers = input.split(',').map(num => parseInt(num.trim())).filter(num => !isNaN(num));
+            
+            if (numbers.length > 0) {
+                let result = `<h6>📦 陣列操作結果：</h6>`;
+                
+                // 原始陣列
+                result += `<p><strong>原始陣列：</strong>[${numbers.join(', ')}]</p>`;
+                
+                // 排序
+                const sorted = [...numbers].sort((a, b) => a - b);
+                result += `<p><strong>升序排列：</strong>[${sorted.join(', ')}]</p>`;
+                
+                // 反轉
+                const reversed = [...numbers].reverse();
+                result += `<p><strong>反轉陣列：</strong>[${reversed.join(', ')}]</p>`;
+                
+                // 統計
+                const sum = numbers.reduce((acc, num) => acc + num, 0);
+                const average = sum / numbers.length;
+                const max = Math.max(...numbers);
+                const min = Math.min(...numbers);
+                
+                result += `<p><strong>總和：</strong>${sum}</p>`;
+                result += `<p><strong>平均值：</strong>${average.toFixed(2)}</p>`;
+                result += `<p><strong>最大值：</strong>${max}</p>`;
+                result += `<p><strong>最小值：</strong>${min}</p>`;
+                
+                // 篩選偶數
+                const evenNumbers = numbers.filter(num => num % 2 === 0);
+                result += `<p><strong>偶數：</strong>[${evenNumbers.join(', ')}]</p>`;
+                
+                // 篩選奇數
+                const oddNumbers = numbers.filter(num => num % 2 !== 0);
+                result += `<p><strong>奇數：</strong>[${oddNumbers.join(', ')}]</p>`;
+                
+                document.getElementById('arrayResult').innerHTML = result;
+                document.getElementById('arrayResult').style.display = 'block';
+            } else {
+                alert('請輸入有效的數字，用逗號分隔！');
+            }
+        }
+
+        // 建立學生功能
+        function createStudent() {
+            const name = document.getElementById('studentName').value;
+            const age = parseInt(document.getElementById('studentAge').value);
+            const id = document.getElementById('studentId').value;
+            
+            if (name && age && id) {
+                const result = `
+                    <h6>🎓 學生建立成功！</h6>
+                    <p><strong>姓名：</strong>${name}</p>
+                    <p><strong>年齡：</strong>${age}歲</p>
+                    <p><strong>學號：</strong>${id}</p>
+                    <p><strong>狀態：</strong>已建立學生物件</p>
+                    <p><strong>可用方法：</strong></p>
+                    <ul>
+                        <li>SetScore(subjectIndex, score) - 設定成績</li>
+                        <li>GetScore(subjectIndex) - 取得成績</li>
+                        <li>GetAverageScore() - 計算平均成績</li>
+                        <li>DisplayInfo() - 顯示學生資料</li>
+                    </ul>
+                `;
+                
+                document.getElementById('studentResult').innerHTML = result;
+                document.getElementById('studentResult').style.display = 'block';
+            } else {
+                alert('請填寫完整的學生資料！');
+            }
+        }
+
+        // 建立動物功能
+        function createAnimal() {
+            const type = document.getElementById('animalType').value;
+            const name = document.getElementById('animalName').value;
+            const age = parseInt(document.getElementById('animalAge').value);
+            
+            if (name && age) {
+                let result = `<h6>🐾 動物建立成功！</h6>`;
+                result += `<p><strong>類型：</strong>${type === 'dog' ? '狗' : type === 'cat' ? '貓' : '鳥'}</p>`;
+                result += `<p><strong>姓名：</strong>${name}</p>`;
+                result += `<p><strong>年齡：</strong>${age}歲</p>`;
+                
+                // 根據類型顯示特殊屬性
+                if (type === 'dog') {
+                    result += `<p><strong>品種：</strong>拉布拉多</p>`;
+                    result += `<p><strong>特殊方法：</strong>WagTail() - 搖尾巴</p>`;
+                } else if (type === 'cat') {
+                    result += `<p><strong>室內貓：</strong>是</p>`;
+                    result += `<p><strong>特殊方法：</strong>ClimbTree() - 爬樹</p>`;
+                } else {
+                    result += `<p><strong>能飛：</strong>是</p>`;
+                    result += `<p><strong>特殊方法：</strong>LayEggs() - 下蛋</p>`;
+                }
+                
+                result += `<p><strong>繼承的方法：</strong></p>`;
+                result += `<ul>`;
+                result += `<li>MakeSound() - 發出聲音</li>`;
+                result += `<li>Move() - 移動</li>`;
+                result += `<li>Sleep() - 睡覺</li>`;
+                result += `<li>DisplayInfo() - 顯示資訊</li>`;
+                result += `</ul>`;
+                
+                document.getElementById('animalResult').innerHTML = result;
+                document.getElementById('animalResult').style.display = 'block';
+            } else {
+                alert('請填寫完整的動物資料！');
+            }
+        }
+
+        // LINQ查詢功能
+        function executeLinqQuery() {
+            const queryType = document.getElementById('linqQuery').value;
+            
+            // 模擬商品資料
+            const products = [
+                { id: 1, name: "iPhone 15", price: 29999, category: "手機", stock: 50 },
+                { id: 2, name: "MacBook Pro", price: 59999, category: "筆電", stock: 30 },
+                { id: 3, name: "iPad Air", price: 19999, category: "平板", stock: 40 },
+                { id: 4, name: "AirPods Pro", price: 6999, category: "耳機", stock: 100 },
+                { id: 5, name: "Apple Watch", price: 12999, category: "手錶", stock: 25 },
+                { id: 6, name: "Samsung Galaxy", price: 24999, category: "手機", stock: 35 },
+                { id: 7, name: "Dell XPS", price: 44999, category: "筆電", stock: 20 },
+                { id: 8, name: "Sony WH-1000XM4", price: 8999, category: "耳機", stock: 60 }
+            ];
+            
+            let result = `<h6>🔍 LINQ查詢結果：</h6>`;
+            let filteredProducts = [];
+            
+            switch (queryType) {
+                case 'all':
+                    filteredProducts = products;
+                    result += `<p><strong>查詢條件：</strong>顯示所有商品</p>`;
+                    break;
+                case 'phones':
+                    filteredProducts = products.filter(p => p.category === "手機");
+                    result += `<p><strong>查詢條件：</strong>只顯示手機</p>`;
+                    break;
+                case 'expensive':
+                    filteredProducts = products.filter(p => p.price > 20000);
+                    result += `<p><strong>查詢條件：</strong>價格超過20000的商品</p>`;
+                    break;
+                case 'lowStock':
+                    filteredProducts = products.filter(p => p.stock < 50);
+                    result += `<p><strong>查詢條件：</strong>庫存少於50的商品</p>`;
+                    break;
+            }
+            
+            result += `<p><strong>查詢結果（共${filteredProducts.length}個商品）：</strong></p>`;
+            
+            filteredProducts.forEach(product => {
+                result += `<p>- ${product.name} (類別：${product.category}, 價格：$${product.price}, 庫存：${product.stock})</p>`;
+            });
+            
+            // 計算統計資訊
+            if (filteredProducts.length > 0) {
+                const totalValue = filteredProducts.reduce((sum, p) => sum + (p.price * p.stock), 0);
+                const avgPrice = filteredProducts.reduce((sum, p) => sum + p.price, 0) / filteredProducts.length;
+                
+                result += `<p><strong>統計資訊：</strong></p>`;
+                result += `<p>總庫存價值：$${totalValue.toLocaleString()}</p>`;
+                result += `<p>平均價格：$${avgPrice.toFixed(0)}</p>`;
+            }
+            
+            document.getElementById('linqResult').innerHTML = result;
+            document.getElementById('linqResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

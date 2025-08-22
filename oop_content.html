@@ -1,0 +1,865 @@
+<!-- 建構子與方法多載 -->
+<div class="lesson" id="constructors">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+        <span class="lesson-title">🔨 建構子與方法多載</span>
+        <span class="lesson-toggle">▼</span>
+    </div>
+    <div class="lesson-content">
+        <div class="concept">
+            <h4>什麼是建構子多載？</h4>
+            <p>建構子多載讓我們可以用不同的方式建立物件，就像可以用不同的食譜做同一道菜一樣。每個建構子可以接受不同的參數，提供不同的初始化方式。</p>
+            
+            <div class="note">
+                <strong>重要概念：</strong><br>
+                1. <strong>建構子多載</strong>：同一個類別有多個建構子<br>
+                2. <strong>方法多載</strong>：同一個方法名稱有多個版本<br>
+                3. <strong>參數數量</strong>：不同數量的參數<br>
+                4. <strong>參數類型</strong>：不同類型的參數<br>
+                5. <strong>this 關鍵字</strong>：呼叫同類別的其他建構子
+            </div>
+        </div>
+
+        <div class="concept">
+            <h4>建構子多載範例</h4>
+            <p>讓我們看看如何為一個類別定義多個建構子，提供不同的初始化選項。</p>
+            
+            <div class="code-block">
+using System;
+
+// 汽車類別 - 示範建構子多載
+public class Car
+{
+    // 屬性
+    public string Brand { get; set; }        // 品牌
+    public string Model { get; set; }        // 型號
+    public int Year { get; set; }            // 年份
+    public string Color { get; set; }        // 顏色
+    public double Price { get; set; }        // 價格
+    public bool IsElectric { get; set; }     // 是否電動車
+    
+    // 預設建構子
+    public Car()
+    {
+        Brand = "未知";
+        Model = "未知";
+        Year = DateTime.Now.Year;
+        Color = "白色";
+        Price = 0.0;
+        IsElectric = false;
+        Console.WriteLine("🚗 建立了一輛預設汽車");
+    }
+    
+    // 基本建構子 - 只有品牌和型號
+    public Car(string brand, string model)
+    {
+        Brand = brand;
+        Model = model;
+        Year = DateTime.Now.Year;
+        Color = "白色";
+        Price = 0.0;
+        IsElectric = false;
+        Console.WriteLine($"🚗 建立汽車：{brand} {model}");
+    }
+    
+    // 完整建構子 - 所有基本資訊
+    public Car(string brand, string model, int year, string color, double price)
+    {
+        Brand = brand;
+        Model = model;
+        Year = year;
+        Color = color;
+        Price = price;
+        IsElectric = false;
+        Console.WriteLine($"🚗 建立汽車：{brand} {model} {year}年，{color}，${price:N0}");
+    }
+    
+    // 使用 this 關鍵字的建構子
+    public Car(string brand, string model, int year, string color, double price, bool isElectric)
+        : this(brand, model, year, color, price)  // 呼叫其他建構子
+    {
+        IsElectric = isElectric;
+        if (isElectric)
+        {
+            Console.WriteLine("⚡ 這是一輛電動車！");
+        }
+    }
+    
+    // 複製建構子 - 從另一個汽車物件複製資訊
+    public Car(Car otherCar)
+    {
+        Brand = otherCar.Brand;
+        Model = otherCar.Model;
+        Year = otherCar.Year;
+        Color = otherCar.Color;
+        Price = otherCar.Price;
+        IsElectric = otherCar.IsElectric;
+        Console.WriteLine($"🚗 複製汽車：{Brand} {Model}");
+    }
+    
+    // 方法
+    public void StartEngine()
+    {
+        if (IsElectric)
+        {
+            Console.WriteLine($"🔋 {Brand} {Model} 電動馬達啟動中...");
+        }
+        else
+        {
+            Console.WriteLine($"🔧 {Brand} {Model} 引擎啟動中...");
+        }
+    }
+    
+    public void ShowInfo()
+    {
+        Console.WriteLine($"📋 汽車資訊：");
+        Console.WriteLine($"  品牌：{Brand}");
+        Console.WriteLine($"  型號：{Model}");
+        Console.WriteLine($"  年份：{Year}");
+        Console.WriteLine($"  顏色：{Color}");
+        Console.WriteLine($"  價格：${Price:N0}");
+        Console.WriteLine($"  類型：{(IsElectric ? "電動車" : "汽油車")}");
+    }
+    
+    // 方法多載 - 不同版本的 ShowInfo
+    public void ShowInfo(bool showPrice)
+    {
+        Console.WriteLine($"📋 汽車資訊：");
+        Console.WriteLine($"  品牌：{Brand}");
+        Console.WriteLine($"  型號：{Model}");
+        Console.WriteLine($"  年份：{Year}");
+        Console.WriteLine($"  顏色：{Color}");
+        if (showPrice)
+        {
+            Console.WriteLine($"  價格：${Price:N0}");
+        }
+        Console.WriteLine($"  類型：{(IsElectric ? "電動車" : "汽油車")}");
+    }
+    
+    // 方法多載 - 格式化輸出
+    public string ShowInfo(string format)
+    {
+        switch (format.ToLower())
+        {
+            case "short":
+                return $"{Brand} {Model}";
+            case "medium":
+                return $"{Brand} {Model} {Year}";
+            case "full":
+                return $"{Brand} {Model} {Year} {Color} ${Price:N0}";
+            default:
+                return $"{Brand} {Model} {Year}";
+        }
+    }
+    
+    // 覆寫 ToString 方法
+    public override string ToString()
+    {
+        return $"{Brand} {Model} {Year}";
+    }
+}
+
+// 主程式
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("=== 建構子與方法多載示範 ===");
+        
+        // 1. 使用不同的建構子建立汽車
+        Console.WriteLine("1. 使用不同建構子建立汽車：");
+        
+        Car car1 = new Car();  // 預設建構子
+        car1.ShowInfo();
+        
+        Console.WriteLine();
+        
+        Car car2 = new Car("Toyota", "Camry");  // 基本建構子
+        car2.ShowInfo();
+        
+        Console.WriteLine();
+        
+        Car car3 = new Car("Honda", "Civic", 2023, "藍色", 25000);  // 完整建構子
+        car3.ShowInfo();
+        
+        Console.WriteLine();
+        
+        Car car4 = new Car("Tesla", "Model 3", 2024, "白色", 45000, true);  // 電動車建構子
+        car4.ShowInfo();
+        
+        Console.WriteLine();
+        
+        // 2. 複製建構子
+        Console.WriteLine("2. 複製建構子：");
+        Car car5 = new Car(car3);  // 複製 car3
+        car5.Color = "紅色";  // 修改顏色
+        car5.ShowInfo();
+        
+        Console.WriteLine();
+        
+        // 3. 方法多載示範
+        Console.WriteLine("3. 方法多載示範：");
+        
+        Console.WriteLine("基本資訊：");
+        car3.ShowInfo();
+        
+        Console.WriteLine("\n不顯示價格：");
+        car3.ShowInfo(false);
+        
+        Console.WriteLine("\n格式化輸出：");
+        Console.WriteLine($"簡短格式：{car3.ShowInfo("short")}");
+        Console.WriteLine($"中等格式：{car3.ShowInfo("medium")}");
+        Console.WriteLine($"完整格式：{car3.ShowInfo("full")}");
+        
+        Console.WriteLine();
+        
+        // 4. 汽車陣列操作
+        Console.WriteLine("4. 汽車陣列操作：");
+        
+        Car[] cars = { car1, car2, car3, car4, car5 };
+        
+        Console.WriteLine("所有汽車：");
+        for (int i = 0; i < cars.Length; i++)
+        {
+            Console.WriteLine($"{i + 1}. {cars[i]}");
+        }
+        
+        Console.WriteLine();
+        
+        // 找出最貴的汽車
+        Car mostExpensive = cars[0];
+        for (int i = 1; i < cars.Length; i++)
+        {
+            if (cars[i].Price > mostExpensive.Price)
+            {
+                mostExpensive = cars[i];
+            }
+        }
+        
+        Console.WriteLine($"💰 最貴的汽車：{mostExpensive.ShowInfo("full")}");
+        
+        Console.WriteLine();
+        
+        // 5. 啟動所有汽車
+        Console.WriteLine("5. 啟動所有汽車：");
+        foreach (Car car in cars)
+        {
+            car.StartEngine();
+        }
+        
+        Console.WriteLine();
+        
+        // 6. 統計資訊
+        Console.WriteLine("6. 統計資訊：");
+        int electricCars = cars.Count(c => c.IsElectric);
+        int gasCars = cars.Length - electricCars;
+        double totalValue = cars.Sum(c => c.Price);
+        
+        Console.WriteLine($"總汽車數：{cars.Length}");
+        Console.WriteLine($"電動車：{electricCars}輛");
+        Console.WriteLine($"汽油車：{gasCars}輛");
+        Console.WriteLine($"總價值：${totalValue:N0}");
+    }
+}
+            </div>
+
+            <div class="output-block">
+=== 建構子與方法多載示範 ===
+1. 使用不同建構子建立汽車：
+🚗 建立了一輛預設汽車
+📋 汽車資訊：
+  品牌：未知
+  型號：未知
+  年份：2024
+  顏色：白色
+  價格：$0
+  類型：汽油車
+
+🚗 建立汽車：Toyota Camry
+📋 汽車資訊：
+  品牌：Toyota
+  型號：Camry
+  年份：2024
+  顏色：白色
+  價格：$0
+  類型：汽油車
+
+🚗 建立汽車：Honda Civic 2023年，藍色，$25,000
+📋 汽車資訊：
+  品牌：Honda
+  型號：Civic
+  年份：2023
+  顏色：藍色
+  價格：$25,000
+  類型：汽油車
+
+🚗 建立汽車：Tesla Model 3 2024年，白色，$45,000
+⚡ 這是一輛電動車！
+📋 汽車資訊：
+  品牌：Tesla
+  型號：Model 3
+  年份：2024
+  顏色：白色
+  價格：$45,000
+  類型：電動車
+
+2. 複製建構子：
+🚗 複製汽車：Honda Civic
+📋 汽車資訊：
+  品牌：Honda
+  型號：Civic
+  年份：2023
+  顏色：紅色
+  價格：$25,000
+  類型：汽油車
+
+3. 方法多載示範：
+基本資訊：
+📋 汽車資訊：
+  品牌：Honda
+  型號：Civic
+  年份：2023
+  顏色：藍色
+  價格：$25,000
+  類型：汽油車
+
+不顯示價格：
+📋 汽車資訊：
+  品牌：Honda
+  型號：Civic
+  年份：2023
+  顏色：藍色
+  類型：汽油車
+
+格式化輸出：
+簡短格式：Honda Civic
+中等格式：Honda Civic 2023
+完整格式：Honda Civic 2023 藍色 $25,000
+
+4. 汽車陣列操作：
+所有汽車：
+1. 未知 未知 2024
+2. Toyota Camry 2024
+3. Honda Civic 2023
+4. Tesla Model 3 2024
+5. Honda Civic 2023
+
+💰 最貴的汽車：Tesla Model 3 2024 白色 $45,000
+
+5. 啟動所有汽車：
+🔧 未知 未知 引擎啟動中...
+🔧 Toyota Camry 引擎啟動中...
+🔧 Honda Civic 引擎啟動中...
+🔋 Tesla Model 3 電動馬達啟動中...
+🔧 Honda Civic 引擎啟動中...
+
+6. 統計資訊：
+總汽車數：5
+電動車：1輛
+汽油車：4輛
+總價值：$95,000
+            </div>
+        </div>
+
+        <div class="interactive-demo">
+            <h4>🎮 互動練習：汽車建構器</h4>
+            <p>使用不同的建構子建立汽車物件：</p>
+            <select class="demo-input" id="constructorType" style="width: 100%; margin-bottom: 10px;">
+                <option value="default">預設建構子</option>
+                <option value="basic">基本建構子（品牌+型號）</option>
+                <option value="full">完整建構子（所有資訊）</option>
+                <option value="electric">電動車建構子</option>
+            </select>
+            <input type="text" class="demo-input" id="carBrand" placeholder="品牌..." style="display: none;">
+            <input type="text" class="demo-input" id="carModel" placeholder="型號..." style="display: none;">
+            <input type="number" class="demo-input" id="carYear" placeholder="年份..." min="1900" max="2030" style="display: none;">
+            <input type="text" class="demo-input" id="carColor" placeholder="顏色..." style="display: none;">
+            <input type="number" class="demo-input" id="carPrice" placeholder="價格..." min="0" style="display: none;">
+            <div style="margin: 10px 0;">
+                <input type="checkbox" id="carElectric" style="display: none;">
+                <label for="carElectric" style="display: none;">電動車</label>
+            </div>
+            <button class="btn" onclick="createCar()">建立汽車</button>
+            <button class="btn" onclick="listCars()">列出所有汽車</button>
+            <button class="btn" onclick="clearCars()">清空汽車</button>
+            <div class="demo-output" id="carOutput">汽車建構器準備就緒...</div>
+        </div>
+
+        <div class="challenge">
+            <h5>💪 挑戰題目</h5>
+            <p>1. 建立一個銀行帳戶類別，包含多個建構子（基本帳戶、儲蓄帳戶、支票帳戶）</p>
+            <p>2. 為帳戶類別添加存款、提款、轉帳等方法的多載版本</p>
+            <p>3. 建立一個銀行系統來管理多個帳戶</p>
+            
+            <button class="btn-secondary" onclick="toggleSolution('solution13')">顯示解答</button>
+            
+            <div class="solution" id="solution13">
+                <h6>解答</h6>
+                <div class="code-block">
+using System;
+using System.Collections.Generic;
+
+// 帳戶類型列舉
+public enum AccountType
+{
+    Basic,      // 基本帳戶
+    Savings,    // 儲蓄帳戶
+    Checking    // 支票帳戶
+}
+
+// 銀行帳戶類別
+public class BankAccount
+{
+    // 屬性
+    public string AccountNumber { get; private set; }  // 帳號（唯讀）
+    public string OwnerName { get; set; }              // 帳戶持有人
+    public decimal Balance { get; private set; }       // 餘額（唯讀）
+    public AccountType Type { get; set; }              // 帳戶類型
+    public DateTime CreatedDate { get; private set; }  // 開戶日期
+    public bool IsActive { get; set; }                 // 是否啟用
+    
+    // 靜態屬性 - 用於產生帳號
+    private static int accountCounter = 1000;
+    
+    // 預設建構子
+    public BankAccount()
+    {
+        AccountNumber = GenerateAccountNumber();
+        OwnerName = "未知";
+        Balance = 0.0m;
+        Type = AccountType.Basic;
+        CreatedDate = DateTime.Now;
+        IsActive = true;
+        Console.WriteLine($"🏦 建立基本帳戶：{AccountNumber}");
+    }
+    
+    // 基本建構子 - 只有持有人姓名
+    public BankAccount(string ownerName)
+    {
+        AccountNumber = GenerateAccountNumber();
+        OwnerName = ownerName;
+        Balance = 0.0m;
+        Type = AccountType.Basic;
+        CreatedDate = DateTime.Now;
+        IsActive = true;
+        Console.WriteLine($"🏦 建立基本帳戶：{AccountNumber}（持有人：{ownerName}）");
+    }
+    
+    // 完整建構子 - 所有基本資訊
+    public BankAccount(string ownerName, decimal initialBalance, AccountType type)
+    {
+        AccountNumber = GenerateAccountNumber();
+        OwnerName = ownerName;
+        Balance = initialBalance;
+        Type = type;
+        CreatedDate = DateTime.Now;
+        IsActive = true;
+        Console.WriteLine($"🏦 建立{GetTypeName(type)}：{AccountNumber}（持有人：{ownerName}，初始餘額：${initialBalance:N2}）");
+    }
+    
+    // 複製建構子
+    public BankAccount(BankAccount otherAccount)
+    {
+        AccountNumber = GenerateAccountNumber();
+        OwnerName = otherAccount.OwnerName;
+        Balance = otherAccount.Balance;
+        Type = otherAccount.Type;
+        CreatedDate = DateTime.Now;
+        IsActive = true;
+        Console.WriteLine($"🏦 複製帳戶：{AccountNumber}（從 {otherAccount.AccountNumber} 複製）");
+    }
+    
+    // 私有方法 - 產生帳號
+    private string GenerateAccountNumber()
+    {
+        return $"ACC{++accountCounter:D6}";
+    }
+    
+    // 私有方法 - 取得帳戶類型名稱
+    private string GetTypeName(AccountType type)
+    {
+        return type switch
+        {
+            AccountType.Basic => "基本帳戶",
+            AccountType.Savings => "儲蓄帳戶",
+            AccountType.Checking => "支票帳戶",
+            _ => "未知帳戶"
+        };
+    }
+    
+    // 存款方法 - 基本版本
+    public bool Deposit(decimal amount)
+    {
+        if (amount <= 0)
+        {
+            Console.WriteLine($"❌ 存款金額必須大於零");
+            return false;
+        }
+        
+        if (!IsActive)
+        {
+            Console.WriteLine($"❌ 帳戶 {AccountNumber} 已被停用");
+            return false;
+        }
+        
+        Balance += amount;
+        Console.WriteLine($"✅ {OwnerName} 存款 ${amount:N2}，新餘額：${Balance:N2}");
+        return true;
+    }
+    
+    // 存款方法多載 - 包含備註
+    public bool Deposit(decimal amount, string note)
+    {
+        bool success = Deposit(amount);
+        if (success)
+        {
+            Console.WriteLine($"📝 備註：{note}");
+        }
+        return success;
+    }
+    
+    // 提款方法 - 基本版本
+    public bool Withdraw(decimal amount)
+    {
+        if (amount <= 0)
+        {
+            Console.WriteLine($"❌ 提款金額必須大於零");
+            return false;
+        }
+        
+        if (!IsActive)
+        {
+            Console.WriteLine($"❌ 帳戶 {AccountNumber} 已被停用");
+            return false;
+        }
+        
+        if (amount > Balance)
+        {
+            Console.WriteLine($"❌ 餘額不足，無法提款 ${amount:N2}（餘額：${Balance:N2}）");
+            return false;
+        }
+        
+        Balance -= amount;
+        Console.WriteLine($"✅ {OwnerName} 提款 ${amount:N2}，新餘額：${Balance:N2}");
+        return true;
+    }
+    
+    // 提款方法多載 - 包含備註
+    public bool Withdraw(decimal amount, string note)
+    {
+        bool success = Withdraw(amount);
+        if (success)
+        {
+            Console.WriteLine($"📝 備註：{note}");
+        }
+        return success;
+    }
+    
+    // 轉帳方法 - 轉出
+    public bool Transfer(BankAccount targetAccount, decimal amount)
+    {
+        if (targetAccount == null)
+        {
+            Console.WriteLine($"❌ 目標帳戶不存在");
+            return false;
+        }
+        
+        if (!targetAccount.IsActive)
+        {
+            Console.WriteLine($"❌ 目標帳戶 {targetAccount.AccountNumber} 已被停用");
+            return false;
+        }
+        
+        if (Withdraw(amount))
+        {
+            targetAccount.Deposit(amount);
+            Console.WriteLine($"✅ 成功轉帳 ${amount:N2} 到 {targetAccount.OwnerName} 的帳戶");
+            return true;
+        }
+        
+        return false;
+    }
+    
+    // 轉帳方法多載 - 包含備註
+    public bool Transfer(BankAccount targetAccount, decimal amount, string note)
+    {
+        bool success = Transfer(targetAccount, amount);
+        if (success)
+        {
+            Console.WriteLine($"📝 轉帳備註：{note}");
+        }
+        return success;
+    }
+    
+    // 查詢餘額方法
+    public decimal GetBalance()
+    {
+        return Balance;
+    }
+    
+    // 查詢餘額方法多載 - 格式化輸出
+    public string GetBalance(string format)
+    {
+        return format.ToLower() switch
+        {
+            "currency" => $"${Balance:N2}",
+            "number" => Balance.ToString("N2"),
+            "simple" => Balance.ToString(),
+            _ => $"${Balance:N2}"
+        };
+    }
+    
+    // 顯示帳戶資訊
+    public void ShowInfo()
+    {
+        Console.WriteLine($"📋 帳戶資訊：");
+        Console.WriteLine($"  帳號：{AccountNumber}");
+        Console.WriteLine($"  持有人：{OwnerName}");
+        Console.WriteLine($"  類型：{GetTypeName(Type)}");
+        Console.WriteLine($"  餘額：${Balance:N2}");
+        Console.WriteLine($"  開戶日期：{CreatedDate:yyyy-MM-dd}");
+        Console.WriteLine($"  狀態：{(IsActive ? "啟用" : "停用")}");
+    }
+    
+    // 覆寫 ToString 方法
+    public override string ToString()
+    {
+        return $"{AccountNumber} - {OwnerName}（{GetTypeName(Type)}，${Balance:N2}）";
+    }
+}
+
+// 銀行系統類別
+public class Bank
+{
+    private List<BankAccount> accounts;
+    public string BankName { get; set; }
+    
+    public Bank(string bankName)
+    {
+        BankName = bankName;
+        accounts = new List<BankAccount>();
+        Console.WriteLine($"🏛️ 建立銀行：{bankName}");
+    }
+    
+    // 開戶方法
+    public BankAccount OpenAccount(string ownerName, decimal initialBalance = 0, AccountType type = AccountType.Basic)
+    {
+        var account = new BankAccount(ownerName, initialBalance, type);
+        accounts.Add(account);
+        return account;
+    }
+    
+    // 關戶方法
+    public bool CloseAccount(string accountNumber)
+    {
+        var account = FindAccount(accountNumber);
+        if (account != null)
+        {
+            account.IsActive = false;
+            Console.WriteLine($"🔒 關閉帳戶：{accountNumber}");
+            return true;
+        }
+        else
+        {
+            Console.WriteLine($"❌ 找不到帳戶：{accountNumber}");
+            return false;
+        }
+    }
+    
+    // 查詢帳戶
+    public BankAccount FindAccount(string accountNumber)
+    {
+        return accounts.Find(a => a.AccountNumber == accountNumber);
+    }
+    
+    // 列出所有帳戶
+    public void ListAllAccounts()
+    {
+        if (accounts.Count == 0)
+        {
+            Console.WriteLine("🏦 銀行目前沒有帳戶");
+            return;
+        }
+        
+        Console.WriteLine($"🏦 {BankName} 共有 {accounts.Count} 個帳戶：");
+        for (int i = 0; i < accounts.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {accounts[i]}");
+        }
+    }
+    
+    // 統計資訊
+    public void ShowStatistics()
+    {
+        int totalAccounts = accounts.Count;
+        int activeAccounts = accounts.Count(a => a.IsActive);
+        decimal totalBalance = accounts.Sum(a => a.Balance);
+        
+        var typeStats = accounts.GroupBy(a => a.Type)
+                               .Select(g => new { Type = g.Key, Count = g.Count() })
+                               .ToList();
+        
+        Console.WriteLine($"📊 {BankName} 統計資訊：");
+        Console.WriteLine($"  總帳戶數：{totalAccounts}");
+        Console.WriteLine($"  啟用帳戶：{activeAccounts}");
+        Console.WriteLine($"  總存款：${totalBalance:N2}");
+        
+        Console.WriteLine("  帳戶類型分布：");
+        foreach (var stat in typeStats)
+        {
+            string typeName = stat.Type switch
+            {
+                AccountType.Basic => "基本帳戶",
+                AccountType.Savings => "儲蓄帳戶",
+                AccountType.Checking => "支票帳戶",
+                _ => "未知"
+            };
+            Console.WriteLine($"    • {typeName}：{stat.Count}個");
+        }
+    }
+}
+
+// 主程式
+class Program
+{
+    static void Main()
+    {
+        Console.WriteLine("=== 銀行系統示範 ===");
+        
+        // 建立銀行
+        Bank bank = new Bank("台灣銀行");
+        
+        // 開立不同類型的帳戶
+        BankAccount account1 = bank.OpenAccount("小明", 10000, AccountType.Savings);
+        BankAccount account2 = bank.OpenAccount("小華", 5000, AccountType.Checking);
+        BankAccount account3 = bank.OpenAccount("小美", 2000, AccountType.Basic);
+        
+        Console.WriteLine();
+        
+        // 列出所有帳戶
+        bank.ListAllAccounts();
+        
+        Console.WriteLine();
+        
+        // 存款操作
+        account1.Deposit(5000);
+        account1.Deposit(2000, "年終獎金");
+        account2.Deposit(3000);
+        
+        Console.WriteLine();
+        
+        // 提款操作
+        account1.Withdraw(1000);
+        account2.Withdraw(800, "繳房租");
+        account3.Withdraw(3000);  // 餘額不足
+        
+        Console.WriteLine();
+        
+        // 轉帳操作
+        account1.Transfer(account3, 2000, "借錢給小美");
+        account2.Transfer(account1, 1000);
+        
+        Console.WriteLine();
+        
+        // 查詢餘額
+        Console.WriteLine("查詢餘額：");
+        Console.WriteLine($"小明：{account1.GetBalance("currency")}");
+        Console.WriteLine($"小華：{account2.GetBalance("currency")}");
+        Console.WriteLine($"小美：{account3.GetBalance("currency")}");
+        
+        Console.WriteLine();
+        
+        // 顯示帳戶詳細資訊
+        Console.WriteLine("帳戶詳細資訊：");
+        account1.ShowInfo();
+        Console.WriteLine();
+        account2.ShowInfo();
+        Console.WriteLine();
+        account3.ShowInfo();
+        
+        Console.WriteLine();
+        
+        // 關閉一個帳戶
+        bank.CloseAccount(account2.AccountNumber);
+        
+        Console.WriteLine();
+        
+        // 顯示統計資訊
+        bank.ShowStatistics();
+    }
+}
+                </div>
+                <div class="output-block">
+=== 銀行系統示範 ===
+🏛️ 建立銀行：台灣銀行
+🏦 建立儲蓄帳戶：ACC001001（持有人：小明，初始餘額：$10,000.00）
+🏦 建立支票帳戶：ACC001002（持有人：小華，初始餘額：$5,000.00）
+🏦 建立基本帳戶：ACC001003（持有人：小美，初始餘額：$2,000.00）
+
+🏦 台灣銀行 共有 3 個帳戶：
+1. ACC001001 - 小明（儲蓄帳戶，$10,000.00）
+2. ACC001002 - 小華（支票帳戶，$5,000.00）
+3. ACC001003 - 小美（基本帳戶，$2,000.00）
+
+✅ 小明 存款 $5,000.00，新餘額：$15,000.00
+✅ 小明 存款 $2,000.00，新餘額：$17,000.00
+📝 備註：年終獎金
+✅ 小華 存款 $3,000.00，新餘額：$8,000.00
+
+✅ 小明 提款 $1,000.00，新餘額：$16,000.00
+✅ 小華 提款 $800.00，新餘額：$7,200.00
+📝 備註：繳房租
+❌ 餘額不足，無法提款 $3,000.00（餘額：$2,000.00）
+
+✅ 小明 提款 $2,000.00，新餘額：$14,000.00
+✅ 小美 存款 $2,000.00，新餘額：$4,000.00
+✅ 成功轉帳 $2,000.00 到 小美 的帳戶
+📝 轉帳備註：借錢給小美
+✅ 小華 提款 $1,000.00，新餘額：$6,200.00
+✅ 小明 存款 $1,000.00，新餘額：$15,000.00
+✅ 成功轉帳 $1,000.00 到 小明 的帳戶
+
+查詢餘額：
+小明：$15,000.00
+小華：$6,200.00
+小美：$4,000.00
+
+帳戶詳細資訊：
+📋 帳戶資訊：
+  帳號：ACC001001
+  持有人：小明
+  類型：儲蓄帳戶
+  餘額：$15,000.00
+  開戶日期：2024-12-18
+  狀態：啟用
+
+📋 帳戶資訊：
+  帳號：ACC001002
+  持有人：小華
+  類型：支票帳戶
+  餘額：$6,200.00
+  開戶日期：2024-12-18
+  狀態：啟用
+
+📋 帳戶資訊：
+  帳號：ACC001003
+  持有人：小美
+  類型：基本帳戶
+  餘額：$4,000.00
+  開戶日期：2024-12-18
+  狀態：啟用
+
+🔒 關閉帳戶：ACC001002
+
+📊 台灣銀行 統計資訊：
+  總帳戶數：3
+  啟用帳戶：2
+  總存款：$19,000.00
+  帳戶類型分布：
+    • 儲蓄帳戶：1個
+    • 支票帳戶：1個
+    • 基本帳戶：1個
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

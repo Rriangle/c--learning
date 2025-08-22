@@ -1,0 +1,905 @@
+<!-- 封裝、繼承、多型 -->
+<div class="lesson" id="inheritance">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+        <span class="lesson-title">🔗 封裝、繼承、多型</span>
+        <span class="lesson-toggle">▼</span>
+    </div>
+    <div class="lesson-content">
+        <div class="concept">
+            <h4>什麼是物件導向的三大特性？</h4>
+            <p>物件導向程式設計有三大核心特性：封裝（Encapsulation）、繼承（Inheritance）、多型（Polymorphism）。這三個特性讓我們可以建立更模組化、可重用和易於維護的程式碼。</p>
+
+            <div class="note">
+                <strong>三大特性：</strong><br>
+                1. <strong>封裝</strong>：隱藏內部實作細節，只暴露必要的介面<br>
+                2. <strong>繼承</strong>：子類別可以繼承父類別的屬性和方法<br>
+                3. <strong>多型</strong>：同一個介面可以有不同的實作方式
+            </div>
+        </div>
+
+        <div class="concept">
+            <h4>封裝（Encapsulation）</h4>
+            <p>封裝就像是把重要的東西放在保險箱裡，只有擁有鑰匙的人才能存取。在程式設計中，我們使用存取修飾詞來控制類別成員的可見性。</p>
+
+            <div class="code-block">
+                using System;
+
+                // 示範封裝的銀行帳戶類別
+                public class BankAccount
+                {
+                // 私有欄位 - 外部無法直接存取
+                private decimal balance;
+                private string accountNumber;
+                private string ownerName;
+                private bool isActive;
+
+                // 公開屬性 - 提供受控的存取方式
+                public decimal Balance
+                {
+                get { return balance; } // 唯讀屬性
+                private set { balance = value; } // 只有內部可以設定
+                }
+
+                public string AccountNumber
+                {
+                get { return accountNumber; } // 唯讀屬性
+                }
+
+                public string OwnerName
+                {
+                get { return ownerName; }
+                set
+                {
+                if (!string.IsNullOrEmpty(value))
+                ownerName = value;
+                }
+                }
+
+                public bool IsActive
+                {
+                get { return isActive; }
+                private set { isActive = value; } // 只有內部可以設定
+                }
+
+                // 建構子
+                public BankAccount(string owner, decimal initialBalance)
+                {
+                ownerName = owner;
+                balance = initialBalance;
+                accountNumber = GenerateAccountNumber();
+                isActive = true;
+                Console.WriteLine($"🏦 建立帳戶：{accountNumber}（持有人：{owner}）");
+                }
+
+                // 私有方法 - 外部無法呼叫
+                private string GenerateAccountNumber()
+                {
+                Random random = new Random();
+                return $"ACC{random.Next(100000, 999999)}";
+                }
+
+                // 公開方法 - 提供受控的操作介面
+                public bool Deposit(decimal amount)
+                {
+                if (!isActive)
+                {
+                Console.WriteLine("❌ 帳戶已被停用");
+                return false;
+                }
+
+                if (amount <= 0) { Console.WriteLine("❌ 存款金額必須大於零"); return false; } balance +=amount;
+                    Console.WriteLine($"✅ 存款 ${amount:N2}，新餘額：${balance:N2}"); return true; } public bool
+                    Withdraw(decimal amount) { if (!isActive) { Console.WriteLine("❌ 帳戶已被停用"); return false; } if
+                    (amount <=0) { Console.WriteLine("❌ 提款金額必須大於零"); return false; } if (amount> balance)
+                    {
+                    Console.WriteLine($"❌ 餘額不足，無法提款 ${amount:N2}");
+                    return false;
+                    }
+
+                    balance -= amount;
+                    Console.WriteLine($"✅ 提款 ${amount:N2}，新餘額：${balance:N2}");
+                    return true;
+                    }
+
+                    // 內部方法 - 只有同一個組件內可以呼叫
+                    internal void CloseAccount()
+                    {
+                    isActive = false;
+                    Console.WriteLine($"🔒 關閉帳戶：{accountNumber}");
+                    }
+
+                    public void ShowInfo()
+                    {
+                    Console.WriteLine($"📋 帳戶資訊：");
+                    Console.WriteLine($" 帳號：{accountNumber}");
+                    Console.WriteLine($" 持有人：{ownerName}");
+                    Console.WriteLine($" 餘額：${balance:N2}");
+                    Console.WriteLine($" 狀態：{(isActive ? "啟用" : "停用")}");
+                    }
+                    }
+
+                    // 主程式
+                    class Program
+                    {
+                    static void Main()
+                    {
+                    Console.WriteLine("=== 封裝示範 ===");
+
+                    // 建立銀行帳戶
+                    BankAccount account = new BankAccount("小明", 10000);
+
+                    // 使用公開介面操作帳戶
+                    account.ShowInfo();
+
+                    Console.WriteLine();
+
+                    // 存款和提款操作
+                    account.Deposit(5000);
+                    account.Withdraw(2000);
+                    account.Withdraw(20000); // 餘額不足
+
+                    Console.WriteLine();
+
+                    // 嘗試直接存取私有成員（這會造成編譯錯誤）
+                    // account.balance = 1000000; // 錯誤！無法存取私有欄位
+                    // account.accountNumber = "123"; // 錯誤！無法存取私有欄位
+
+                    // 但可以透過公開屬性存取
+                    Console.WriteLine($"目前餘額：${account.Balance}");
+                    Console.WriteLine($"帳號：{account.AccountNumber}");
+
+                    // 可以修改公開屬性
+                    account.OwnerName = "小華";
+                    Console.WriteLine($"新持有人：{account.OwnerName}");
+
+                    // 但無法修改唯讀屬性
+                    // account.Balance = 50000; // 錯誤！Balance 是唯讀的
+
+                    Console.WriteLine();
+
+                    // 關閉帳戶
+                    account.CloseAccount();
+                    account.Deposit(1000); // 無法存款，因為帳戶已關閉
+
+                    Console.WriteLine();
+
+                    account.ShowInfo();
+                    }
+                    }
+            </div>
+
+            <div class="output-block">
+                === 封裝示範 ===
+                🏦 建立帳戶：ACC123456（持有人：小明）
+                📋 帳戶資訊：
+                帳號：ACC123456
+                持有人：小明
+                餘額：$10,000.00
+                狀態：啟用
+
+                ✅ 存款 $5,000.00，新餘額：$15,000.00
+                ✅ 提款 $2,000.00，新餘額：$13,000.00
+                ❌ 餘額不足，無法提款 $20,000.00
+
+                目前餘額：$13,000.00
+                帳號：ACC123456
+                新持有人：小華
+
+                🔒 關閉帳戶：ACC123456
+                ❌ 帳戶已被停用
+
+                📋 帳戶資訊：
+                帳號：ACC123456
+                持有人：小華
+                餘額：$13,000.00
+                狀態：停用
+            </div>
+        </div>
+
+        <div class="concept">
+            <h4>繼承（Inheritance）</h4>
+            <p>繼承就像是「子承父業」，子類別可以繼承父類別的所有公開和受保護的成員，並且可以添加自己的新功能或覆寫父類別的方法。</p>
+
+            <div class="code-block">
+                using System;
+
+                // 基底類別（父類別）
+                public class Animal
+                {
+                // 受保護的欄位 - 子類別可以存取
+                protected string name;
+                protected int age;
+                protected string species;
+
+                // 公開屬性
+                public string Name
+                {
+                get { return name; }
+                set { name = value; }
+                }
+
+                public int Age
+                {
+                get { return age; }
+                set { age = value; }
+                }
+
+                public string Species
+                {
+                get { return species; }
+                set { species = value; }
+                }
+
+                // 建構子
+                public Animal(string name, int age, string species)
+                {
+                this.name = name;
+                this.age = age;
+                this.species = species;
+                Console.WriteLine($"🐾 建立動物：{name}（{species}，{age}歲）");
+                }
+
+                // 虛擬方法 - 子類別可以覆寫
+                public virtual void MakeSound()
+                {
+                Console.WriteLine($"{name} 發出聲音");
+                }
+
+                // 一般方法
+                public void Sleep()
+                {
+                Console.WriteLine($"{name} 正在睡覺...");
+                }
+
+                public void Eat()
+                {
+                Console.WriteLine($"{name} 正在吃東西...");
+                }
+
+                // 虛擬方法 - 子類別可以覆寫
+                public virtual void ShowInfo()
+                {
+                Console.WriteLine($"📋 動物資訊：");
+                Console.WriteLine($" 姓名：{name}");
+                Console.WriteLine($" 年齡：{age}歲");
+                Console.WriteLine($" 種類：{species}");
+                }
+                }
+
+                // 子類別 - 繼承 Animal
+                public class Dog : Animal
+                {
+                // 子類別特有的欄位
+                private string breed;
+                private bool isTrained;
+
+                // 子類別特有的屬性
+                public string Breed
+                {
+                get { return breed; }
+                set { breed = value; }
+                }
+
+                public bool IsTrained
+                {
+                get { return isTrained; }
+                set { isTrained = value; }
+                }
+
+                // 子類別建構子 - 呼叫父類別建構子
+                public Dog(string name, int age, string breed, bool isTrained)
+                : base(name, age, "狗") // 呼叫父類別建構子
+                {
+                this.breed = breed;
+                this.isTrained = isTrained;
+                Console.WriteLine($"🐕 這是一隻 {breed} 犬");
+                }
+
+                // 覆寫父類別的方法
+                public override void MakeSound()
+                {
+                Console.WriteLine($"{name} 汪汪叫！");
+                }
+
+                // 覆寫父類別的方法
+                public override void ShowInfo()
+                {
+                base.ShowInfo(); // 呼叫父類別的方法
+                Console.WriteLine($" 品種：{breed}");
+                Console.WriteLine($" 訓練狀態：{(isTrained ? "已訓練" : "未訓練")}");
+                }
+
+                // 子類別特有的方法
+                public void Fetch()
+                {
+                if (isTrained)
+                {
+                Console.WriteLine($"{name} 正在撿球...");
+                }
+                else
+                {
+                Console.WriteLine($"{name} 還不會撿球，需要訓練");
+                }
+                }
+
+                public void Train()
+                {
+                if (!isTrained)
+                {
+                isTrained = true;
+                Console.WriteLine($"{name} 訓練完成！");
+                }
+                else
+                {
+                Console.WriteLine($"{name} 已經訓練過了");
+                }
+                }
+                }
+
+                // 另一個子類別
+                public class Cat : Animal
+                {
+                private string color;
+                private bool isIndoor;
+
+                public string Color
+                {
+                get { return color; }
+                set { color = value; }
+                }
+
+                public bool IsIndoor
+                {
+                get { return isIndoor; }
+                set { isIndoor = value; }
+                }
+
+                public Cat(string name, int age, string color, bool isIndoor)
+                : base(name, age, "貓")
+                {
+                this.color = color;
+                this.isIndoor = isIndoor;
+                Console.WriteLine($"🐱 這是一隻 {color} 色的貓");
+                }
+
+                public override void MakeSound()
+                {
+                Console.WriteLine($"{name} 喵喵叫！");
+                }
+
+                public override void ShowInfo()
+                {
+                base.ShowInfo();
+                Console.WriteLine($" 顏色：{color}");
+                Console.WriteLine($" 飼養方式：{(isIndoor ? "室內貓" : "戶外貓")}");
+                }
+
+                public void Climb()
+                {
+                Console.WriteLine($"{name} 正在爬樹...");
+                }
+
+                public void Purr()
+                {
+                Console.WriteLine($"{name} 發出呼嚕聲...");
+                }
+                }
+
+                // 主程式
+                class Program
+                {
+                static void Main()
+                {
+                Console.WriteLine("=== 繼承示範 ===");
+
+                // 建立動物物件
+                Animal animal = new Animal("小動物", 3, "未知");
+                animal.ShowInfo();
+                animal.MakeSound();
+
+                Console.WriteLine();
+
+                // 建立狗物件
+                Dog dog = new Dog("小白", 2, "拉布拉多", false);
+                dog.ShowInfo();
+                dog.MakeSound();
+                dog.Fetch();
+                dog.Train();
+                dog.Fetch();
+
+                Console.WriteLine();
+
+                // 建立貓物件
+                Cat cat = new Cat("咪咪", 1, "橘色", true);
+                cat.ShowInfo();
+                cat.MakeSound();
+                cat.Climb();
+                cat.Purr();
+
+                Console.WriteLine();
+
+                // 多型示範 - 使用父類別參考子類別物件
+                Console.WriteLine("=== 多型示範 ===");
+
+                Animal[] animals = { animal, dog, cat };
+
+                foreach (Animal a in animals)
+                {
+                Console.WriteLine($"\n{a.Name} 的行為：");
+                a.MakeSound(); // 會呼叫各自子類別的實作
+                a.Sleep();
+                a.Eat();
+                }
+
+                Console.WriteLine();
+
+                // 檢查物件類型
+                foreach (Animal a in animals)
+                {
+                if (a is Dog)
+                {
+                Dog d = (Dog)a; // 型別轉換
+                d.Fetch();
+                }
+                else if (a is Cat)
+                {
+                Cat c = (Cat)a; // 型別轉換
+                c.Climb();
+                }
+                }
+
+                Console.WriteLine();
+
+                // 使用 as 關鍵字進行安全的型別轉換
+                foreach (Animal a in animals)
+                {
+                Dog d = a as Dog;
+                if (d != null)
+                {
+                d.Fetch();
+                }
+
+                Cat c = a as Cat;
+                if (c != null)
+                {
+                c.Climb();
+                }
+                }
+                }
+                }
+            </div>
+
+            <div class="output-block">
+                === 繼承示範 ===
+                🐾 建立動物：小動物（未知，3歲）
+                📋 動物資訊：
+                姓名：小動物
+                年齡：3歲
+                種類：未知
+                小動物 發出聲音
+
+                🐾 建立動物：小白（狗，2歲）
+                🐕 這是一隻 拉布拉多 犬
+                📋 動物資訊：
+                姓名：小白
+                年齡：2歲
+                種類：狗
+                品種：拉布拉多
+                訓練狀態：未訓練
+                小白 汪汪叫！
+                小白 還不會撿球，需要訓練
+                小白 訓練完成！
+                小白 正在撿球...
+
+                🐾 建立動物：咪咪（貓，1歲）
+                🐱 這是一隻 橘色 色的貓
+                📋 動物資訊：
+                姓名：咪咪
+                年齡：1歲
+                種類：貓
+                顏色：橘色
+                飼養方式：室內貓
+                咪咪 喵喵叫！
+                咪咪 正在爬樹...
+                咪咪 發出呼嚕聲...
+
+                === 多型示範 ===
+
+                小動物 的行為：
+                小動物 發出聲音
+                小動物 正在睡覺...
+                小動物 正在吃東西...
+
+                小白 的行為：
+                小白 汪汪叫！
+                小白 正在睡覺...
+                小白 正在吃東西...
+
+                咪咪 的行為：
+                咪咪 喵喵叫！
+                咪咪 正在睡覺...
+                咪咪 正在吃東西...
+
+                小白 正在撿球...
+                咪咪 正在爬樹...
+
+                小白 正在撿球...
+                咪咪 正在爬樹...
+            </div>
+        </div>
+
+        <div class="interactive-demo">
+            <h4>🎮 互動練習：動物管理系統</h4>
+            <p>建立和管理不同類型的動物：</p>
+            <select class="demo-input" id="animalType" style="width: 100%; margin-bottom: 10px;">
+                <option value="animal">一般動物</option>
+                <option value="dog">狗</option>
+                <option value="cat">貓</option>
+            </select>
+            <input type="text" class="demo-input" id="animalName" placeholder="動物姓名...">
+            <input type="number" class="demo-input" id="animalAge" placeholder="年齡..." min="0" max="50">
+            <input type="text" class="demo-input" id="animalBreed" placeholder="品種/顏色..." style="display: none;">
+            <div style="margin: 10px 0;">
+                <input type="checkbox" id="animalTrained" style="display: none;">
+                <label for="animalTrained" style="display: none;">已訓練</label>
+                <input type="checkbox" id="animalIndoor" style="display: none;">
+                <label for="animalIndoor" style="display: none;">室內飼養</label>
+            </div>
+            <button class="btn" onclick="createAnimal()">建立動物</button>
+            <button class="btn" onclick="listAnimals()">列出所有動物</button>
+            <button class="btn" onclick="clearAnimals()">清空動物</button>
+            <div class="demo-output" id="animalOutput">動物管理系統準備就緒...</div>
+        </div>
+
+        <div class="challenge">
+            <h5>💪 挑戰題目</h5>
+            <p>1. 建立一個交通工具的繼承體系（Vehicle → Car, Motorcycle, Bicycle）</p>
+            <p>2. 為每個子類別添加特有的屬性和方法</p>
+            <p>3. 實作多型，讓所有交通工具都能「移動」但方式不同</p>
+
+            <button class="btn-secondary" onclick="toggleSolution('solution14')">顯示解答</button>
+
+            <div class="solution" id="solution14">
+                <h6>解答</h6>
+                <div class="code-block">
+                    using System;
+
+                    // 交通工具基底類別
+                    public abstract class Vehicle
+                    {
+                    protected string brand;
+                    protected string model;
+                    protected int year;
+                    protected double maxSpeed;
+
+                    public string Brand { get { return brand; } set { brand = value; } }
+                    public string Model { get { return model; } set { model = value; } }
+                    public int Year { get { return year; } set { year = value; } }
+                    public double MaxSpeed { get { return maxSpeed; } set { maxSpeed = value; } }
+
+                    public Vehicle(string brand, string model, int year, double maxSpeed)
+                    {
+                    this.brand = brand;
+                    this.model = model;
+                    this.year = year;
+                    this.maxSpeed = maxSpeed;
+                    Console.WriteLine($"🚗 建立交通工具：{brand} {model} {year}年");
+                    }
+
+                    // 抽象方法 - 子類別必須實作
+                    public abstract void Move();
+
+                    // 虛擬方法 - 子類別可以覆寫
+                    public virtual void Stop()
+                    {
+                    Console.WriteLine($"{brand} {model} 停止移動");
+                    }
+
+                    public virtual void ShowInfo()
+                    {
+                    Console.WriteLine($"📋 交通工具資訊：");
+                    Console.WriteLine($" 品牌：{brand}");
+                    Console.WriteLine($" 型號：{model}");
+                    Console.WriteLine($" 年份：{year}");
+                    Console.WriteLine($" 最高速度：{maxSpeed} km/h");
+                    }
+                    }
+
+                    // 汽車類別
+                    public class Car : Vehicle
+                    {
+                    private int doors;
+                    private string fuelType;
+                    private bool hasAirConditioning;
+
+                    public int Doors { get { return doors; } set { doors = value; } }
+                    public string FuelType { get { return fuelType; } set { fuelType = value; } }
+                    public bool HasAirConditioning { get { return hasAirConditioning; } set { hasAirConditioning =
+                    value; } }
+
+                    public Car(string brand, string model, int year, double maxSpeed, int doors, string fuelType, bool
+                    hasAirConditioning)
+                    : base(brand, model, year, maxSpeed)
+                    {
+                    this.doors = doors;
+                    this.fuelType = fuelType;
+                    this.hasAirConditioning = hasAirConditioning;
+                    Console.WriteLine($"🚙 這是一輛 {doors} 門 {fuelType} 汽車");
+                    }
+
+                    public override void Move()
+                    {
+                    Console.WriteLine($"🚗 {brand} {model} 在公路上行駛，最高速度 {maxSpeed} km/h");
+                    }
+
+                    public override void Stop()
+                    {
+                    Console.WriteLine($"🛑 {brand} {model} 踩煞車停止");
+                    }
+
+                    public override void ShowInfo()
+                    {
+                    base.ShowInfo();
+                    Console.WriteLine($" 車門數：{doors}");
+                    Console.WriteLine($" 燃料類型：{fuelType}");
+                    Console.WriteLine($" 空調：{(hasAirConditioning ? "有" : "無")}");
+                    }
+
+                    public void Honk()
+                    {
+                    Console.WriteLine($"🔊 {brand} {model} 按喇叭");
+                    }
+
+                    public void Park()
+                    {
+                    Console.WriteLine($"🅿️ {brand} {model} 停車");
+                    }
+                    }
+
+                    // 機車類別
+                    public class Motorcycle : Vehicle
+                    {
+                    private string engineType;
+                    private bool hasSidecar;
+                    private string licenseType;
+
+                    public string EngineType { get { return engineType; } set { engineType = value; } }
+                    public bool HasSidecar { get { return hasSidecar; } set { hasSidecar = value; } }
+                    public string LicenseType { get { return licenseType; } set { licenseType = value; } }
+
+                    public Motorcycle(string brand, string model, int year, double maxSpeed, string engineType, bool
+                    hasSidecar, string licenseType)
+                    : base(brand, model, year, maxSpeed)
+                    {
+                    this.engineType = engineType;
+                    this.hasSidecar = hasSidecar;
+                    this.licenseType = licenseType;
+                    Console.WriteLine($"🏍️ 這是一輛 {engineType} 機車");
+                    }
+
+                    public override void Move()
+                    {
+                    Console.WriteLine($"🏍️ {brand} {model} 在機車道上行駛，最高速度 {maxSpeed} km/h");
+                    }
+
+                    public override void Stop()
+                    {
+                    Console.WriteLine($"🛑 {brand} {model} 拉煞車停止");
+                    }
+
+                    public override void ShowInfo()
+                    {
+                    base.ShowInfo();
+                    Console.WriteLine($" 引擎類型：{engineType}");
+                    Console.WriteLine($" 側車：{(hasSidecar ? "有" : "無")}");
+                    Console.WriteLine($" 駕照類型：{licenseType}");
+                    }
+
+                    public void Wheelie()
+                    {
+                    Console.WriteLine($"🎯 {brand} {model} 翹孤輪");
+                    }
+
+                    public void LaneSplit()
+                    {
+                    Console.WriteLine($"⚡ {brand} {model} 鑽車縫");
+                    }
+                    }
+
+                    // 腳踏車類別
+                    public class Bicycle : Vehicle
+                    {
+                    private int gears;
+                    private string frameMaterial;
+                    private bool hasBasket;
+
+                    public int Gears { get { return gears; } set { gears = value; } }
+                    public string FrameMaterial { get { return frameMaterial; } set { frameMaterial = value; } }
+                    public bool HasBasket { get { return hasBasket; } set { hasBasket = value; } }
+
+                    public Bicycle(string brand, string model, int year, double maxSpeed, int gears, string
+                    frameMaterial, bool hasBasket)
+                    : base(brand, model, year, maxSpeed)
+                    {
+                    this.gears = gears;
+                    this.frameMaterial = frameMaterial;
+                    this.hasBasket = hasBasket;
+                    Console.WriteLine($"🚲 這是一輛 {gears} 段變速腳踏車");
+                    }
+
+                    public override void Move()
+                    {
+                    Console.WriteLine($"🚲 {brand} {model} 在腳踏車道上行駛，最高速度 {maxSpeed} km/h");
+                    }
+
+                    public override void Stop()
+                    {
+                    Console.WriteLine($"🛑 {brand} {model} 踩煞車停止");
+                    }
+
+                    public override void ShowInfo()
+                    {
+                    base.ShowInfo();
+                    Console.WriteLine($" 變速段數：{gears}");
+                    Console.WriteLine($" 車架材質：{frameMaterial}");
+                    Console.WriteLine($" 置物籃：{(hasBasket ? "有" : "無")}");
+                    }
+
+                    public void ChangeGear(int gear)
+                    {
+                    if (gear >= 1 && gear <= gears) { Console.WriteLine($"⚙️ {brand} {model} 換到第 {gear} 段"); } else {
+                        Console.WriteLine($"❌ 無效的變速段數，範圍是 1-{gears}"); } } public void RingBell() {
+                        Console.WriteLine($"🔔 {brand} {model} 按鈴鐺"); } } // 主程式 class Program { static void Main() {
+                        Console.WriteLine("===交通工具繼承體系示範===");
+        
+        // 建立不同類型的交通工具
+        Car car = new Car(" Toyota", "Camry" , 2023, 180, 4, "汽油" , true); Motorcycle motorcycle=new
+                        Motorcycle("Honda", "CBR600RR" , 2022, 250, "四行程" , false, "重型機車" ); Bicycle bicycle=new
+                        Bicycle("Giant", "Defy" , 2024, 45, 22, "碳纖維" , false); Console.WriteLine(); // 顯示資訊
+                        car.ShowInfo(); Console.WriteLine(); motorcycle.ShowInfo(); Console.WriteLine();
+                        bicycle.ShowInfo(); Console.WriteLine(); // 多型示範 - 所有交通工具都能移動 Console.WriteLine("===多型示範===");
+        
+        Vehicle[] vehicles = { car, motorcycle, bicycle };
+        
+        foreach (Vehicle vehicle in vehicles)
+        {
+            Console.WriteLine($" \n{vehicle.Brand} {vehicle.Model} 的行為："); vehicle.Move(); // 每個子類別都有自己的移動方式
+                        vehicle.Stop(); // 每個子類別都有自己的停止方式 } Console.WriteLine(); // 子類別特有的方法
+                        Console.WriteLine("===特有功能示範===");
+        
+        car.Honk();
+        car.Park();
+        
+        Console.WriteLine();
+        
+        motorcycle.Wheelie();
+        motorcycle.LaneSplit();
+        
+        Console.WriteLine();
+        
+        bicycle.ChangeGear(5);
+        bicycle.RingBell();
+        
+        Console.WriteLine();
+        
+        // 型別檢查和轉換
+        Console.WriteLine("===型別檢查示範===");
+        
+        foreach (Vehicle vehicle in vehicles)
+        {
+            if (vehicle is Car)
+            {
+                Car c = (Car)vehicle;
+                c.Honk();
+            }
+            else if (vehicle is Motorcycle)
+            {
+                Motorcycle m = (Motorcycle)vehicle;
+                m.Wheelie();
+            }
+            else if (vehicle is Bicycle)
+            {
+                Bicycle b = (Bicycle)vehicle;
+                b.RingBell();
+            }
+        }
+        
+        Console.WriteLine();
+        
+        // 使用 as 關鍵字進行安全轉換
+        foreach (Vehicle vehicle in vehicles)
+        {
+            Car c = vehicle as Car;
+            if (c != null)
+            {
+                c.Park();
+            }
+            
+            Motorcycle m = vehicle as Motorcycle;
+            if (m != null)
+            {
+                m.LaneSplit();
+            }
+            
+            Bicycle b = vehicle as Bicycle;
+            if (b != null)
+            {
+                b.ChangeGear(10);
+            }
+        }
+    }
+}
+                </div>
+                <div class=" output-block">
+                        === 交通工具繼承體系示範 ===
+                        🚗 建立交通工具：Toyota Camry 2023年
+                        🚙 這是一輛 4 門 汽油 汽車
+                        🚗 建立交通工具：Honda CBR600RR 2022年
+                        🏍️ 這是一輛 四行程 機車
+                        🚗 建立交通工具：Giant Defy 2024年
+                        🚲 這是一輛 22 段變速腳踏車
+
+                        📋 交通工具資訊：
+                        品牌：Toyota
+                        型號：Camry
+                        年份：2023
+                        最高速度：180 km/h
+                        車門數：4
+                        燃料類型：汽油
+                        空調：有
+
+                        📋 交通工具資訊：
+                        品牌：Honda
+                        型號：CBR600RR
+                        年份：2022
+                        最高速度：250 km/h
+                        引擎類型：四行程
+                        側車：無
+                        駕照類型：重型機車
+
+                        📋 交通工具資訊：
+                        品牌：Giant
+                        型號：Defy
+                        年份：2024
+                        最高速度：45 km/h
+                        變速段數：22
+                        車架材質：碳纖維
+                        置物籃：無
+
+                        === 多型示範 ===
+
+                        Toyota Camry 的行為：
+                        🚗 Toyota Camry 在公路上行駛，最高速度 180 km/h
+                        🛑 Toyota Camry 踩煞車停止
+
+                        Honda CBR600RR 的行為：
+                        🏍️ Honda CBR600RR 在機車道上行駛，最高速度 250 km/h
+                        🛑 Honda CBR600RR 拉煞車停止
+
+                        Giant Defy 的行為：
+                        🚲 Giant Defy 在腳踏車道上行駛，最高速度 45 km/h
+                        🛑 Giant Defy 踩煞車停止
+
+                        === 特有功能示範 ===
+                        🔊 Toyota Camry 按喇叭
+                        🅿️ Toyota Camry 停車
+
+                        🎯 Honda CBR600RR 翹孤輪
+                        ⚡ Honda CBR600RR 鑽車縫
+
+                        ⚙️ Giant Defy 換到第 5 段
+                        🔔 Giant Defy 按鈴鐺
+
+                        === 型別檢查示範 ===
+                        🔊 Toyota Camry 按喇叭
+                        🎯 Honda CBR600RR 翹孤輪
+                        🔔 Giant Defy 按鈴鐺
+
+                        🅿️ Toyota Camry 停車
+                        ⚡ Honda CBR600RR 鑽車縫
+                        ⚙️ Giant Defy 換到第 10 段
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
